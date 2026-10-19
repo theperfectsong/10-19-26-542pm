@@ -1,1 +1,1610 @@
-# 10-19-26-542pm
+<!DOCTYPE html>
+<!-- saved from url=(0052)https://socius-study-luis.citrustrout8.chatgpt.site/ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Socius — Find your study people</title>
+    <meta name="description" content="Find tutors and study groups who get your classes and your schedule.">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+      :root {
+        --ink: #203c33;
+        --green: #21664e;
+        --lime: #d9ed94;
+        --muted: #7a867f;
+        --line: #e4e9e3
+      }
+
+      * {
+        box-sizing: border-box
+      }
+
+      body {
+        margin: 0;
+        background: #f7f8f3;
+        color: var(--ink);
+        font: 14px 'DM Sans', sans-serif
+      }
+
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit
+      }
+
+      button {
+        cursor: pointer
+      }
+
+      button,
+      a,
+      input,
+      select,
+      textarea {
+        outline-offset: 4px
+      }
+
+      button {
+        color: inherit
+      }
+
+      aside {
+        width: 228px;
+        position: fixed;
+        inset: 0 auto 0 0;
+        background: white;
+        padding: 34px 23px;
+        border-right: 1px solid var(--line);
+        display: flex;
+        flex-direction: column
+      }
+
+      .logo {
+        font: 800 29px Manrope, sans-serif;
+        letter-spacing: -1.5px
+      }
+
+      .logo span {
+        color: #94ae48
+      }
+
+      .tag {
+        font-size: 10px;
+        letter-spacing: 2px;
+        color: #919b94;
+        margin: 7px 0 42px
+      }
+
+      nav {
+        display: grid;
+        gap: 9px
+      }
+
+      nav button {
+        background: none;
+        border: 0;
+        text-align: left;
+        padding: 14px 16px;
+        border-radius: 11px;
+        color: #7b8780;
+        font-weight: 500
+      }
+
+      nav button.active {
+        background: #edf3e6;
+        color: #24583e;
+        font-weight: 700
+      }
+
+      .navicon {
+        display: inline-block;
+        width: 29px;
+        font-size: 18px
+      }
+
+      .sidebar-note {
+        margin-top: auto;
+        background: #f5f7ee;
+        border-radius: 14px;
+        padding: 18px;
+        line-height: 1.7
+      }
+
+      .sidebar-note b {
+        display: block;
+        margin: 8px 0
+      }
+
+      .sidebar-note p {
+        font-size: 12px;
+        color: var(--muted)
+      }
+
+      .user {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 25px;
+        font-size: 12px
+      }
+
+      .avatar {
+        border-radius: 50%;
+        background: #e5ebd9;
+        display: grid;
+        place-items: center;
+        width: 36px;
+        height: 36px;
+        font-weight: 700
+      }
+
+      .user small {
+        display: block;
+        color: #8c978e;
+        margin-top: 4px
+      }
+
+      main {
+        margin-left: 228px;
+        padding: 30px 44px;
+        max-width: 1600px
+      }
+
+      .top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 27px;
+        border-bottom: 1px solid var(--line)
+      }
+
+      .breadcrumb {
+        color: #8c968f;
+        font-size: 12px
+      }
+
+      .campus {
+        border: 1px solid #dfe5da;
+        background: white;
+        border-radius: 9px;
+        padding: 10px 13px;
+        font-size: 12px
+      }
+
+      .top-right {
+        display: flex;
+        align-items: center;
+        gap: 20px
+      }
+
+      .heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        margin: 36px 0 26px
+      }
+
+      h1 {
+        font: 800 33px Manrope, sans-serif;
+        letter-spacing: -1.2px;
+        margin: 0 0 11px
+      }
+
+      p {
+        line-height: 1.65
+      }
+
+      .heading p {
+        color: var(--muted);
+        margin: 0
+      }
+
+      .pill {
+        background: #edf2e4;
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-size: 11px;
+        color: #587540
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(400px, 1fr) 282px;
+        gap: 28px
+      }
+
+      .toolbar {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        margin-bottom: 20px
+      }
+
+      .tabs {
+        display: flex;
+        background: #ebeee6;
+        padding: 4px;
+        border-radius: 10px;
+        gap: 2px
+      }
+
+      .tabs button {
+        border: 0;
+        background: none;
+        padding: 10px 18px;
+        color: #7a867b;
+        border-radius: 7px;
+        font-size: 12px
+      }
+
+      .tabs button.selected {
+        background: white;
+        color: #244f3c;
+        box-shadow: 0 2px 5px #00000008;
+        font-weight: 700
+      }
+
+      .filter {
+        margin-left: auto;
+        background: white;
+        border: 1px solid var(--line);
+        padding: 12px;
+        border-radius: 9px
+      }
+
+      .card {
+        border: 1px solid #dfe6db;
+        border-radius: 19px;
+        background: white;
+        overflow: hidden;
+        box-shadow: 0 9px 25px #203c3305
+      }
+
+      .cover {
+        height: 225px;
+        position: relative;
+        background: #dbe3d4;
+        overflow: hidden
+      }
+
+      .cover img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 40%;
+        filter: saturate(.65)
+      }
+
+      .cover:after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(transparent 25%, #142b248c)
+      }
+
+      .badge {
+        position: absolute;
+        top: 18px;
+        left: 20px;
+        background: #ffffffeb;
+        padding: 7px 11px;
+        border-radius: 20px;
+        z-index: 1;
+        font-size: 11px
+      }
+
+      .match {
+        left: auto;
+        right: 18px;
+        color: #43632b;
+        background: #edf6d6
+      }
+
+      .covertext {
+        position: absolute;
+        bottom: 19px;
+        left: 24px;
+        z-index: 1;
+        color: white
+      }
+
+      .covertext h2 {
+        font: 700 27px Manrope;
+        margin: 0 0 6px
+      }
+
+      .covertext span {
+        font-size: 12px;
+        color: #f1f4e8
+      }
+
+      .cardbody {
+        padding: 22px 25px
+      }
+
+      .subjectrow {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        align-items: center
+      }
+
+      .subject {
+        background: #eff3e7;
+        padding: 7px 10px;
+        border-radius: 6px;
+        font-size: 11px;
+        color: #567440
+      }
+
+      .rating {
+        font-size: 12px;
+        color: #657467
+      }
+
+      .rating b {
+        color: #bf9b45
+      }
+
+      .bio {
+        font-size: 13px;
+        line-height: 1.75;
+        color: #7a857e;
+        margin: 17px 0
+      }
+
+      .details {
+        display: flex;
+        gap: 22px;
+        color: #65766b;
+        font-size: 11px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--line)
+      }
+
+      .chips {
+        display: flex;
+        gap: 8px;
+        margin-top: 17px
+      }
+
+      .chip {
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 6px 10px;
+        color: #7e897e;
+        font-size: 10px
+      }
+
+      .cardfoot {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        font-size: 12px
+      }
+
+      .cardfoot strong {
+        font-size: 18px
+      }
+
+      .cardfoot small {
+        color: var(--muted)
+      }
+
+      .actions {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        margin: 22px 0 13px
+      }
+
+      .actions button {
+        height: 55px;
+        width: 55px;
+        border-radius: 50%;
+        background: white;
+        border: 1px solid #dce3d5;
+        font-size: 23px;
+        box-shadow: 0 5px 12px #203c3305
+      }
+
+      .actions .connect {
+        width: auto;
+        border-radius: 30px;
+        background: var(--green);
+        color: white;
+        padding: 0 32px;
+        font-size: 14px;
+        display: flex;
+        gap: 13px;
+        align-items: center
+      }
+
+      .actions .undo {
+        font-size: 20px;
+        color: #929e87
+      }
+
+      .hint {
+        text-align: center;
+        font-size: 10px;
+        color: #929b91
+      }
+
+      .panel {
+        background: white;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 21px;
+        margin-bottom: 18px
+      }
+
+      .panel h3 {
+        font: 700 14px Manrope;
+        margin: 0 0 17px
+      }
+
+      .panel p {
+        font-size: 12px;
+        color: var(--muted);
+        margin: 10px 0
+      }
+
+      .panel-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center
+      }
+
+      .panel-top button {
+        border: 0;
+        background: none;
+        color: var(--green);
+        font-size: 11px
+      }
+
+      .classrow {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        margin: 17px 0
+      }
+
+      .classicon {
+        height: 35px;
+        width: 35px;
+        display: grid;
+        place-items: center;
+        border-radius: 9px;
+        background: #f2f1e6;
+        color: #9a9864
+      }
+
+      .classrow strong {
+        font-size: 12px;
+        display: block
+      }
+
+      .classrow small {
+        font-size: 10px;
+        color: #8b948c;
+        display: block;
+        margin-top: 4px
+      }
+
+      .help {
+        background: #eaf0dc;
+        border-color: #e3e9d2
+      }
+
+      .help .leaf {
+        font-size: 23px
+      }
+
+      .help h3 {
+        font-size: 17px;
+        margin: 12px 0 7px
+      }
+
+      .help button {
+        border: 0;
+        border-radius: 8px;
+        background: #fff;
+        padding: 11px 14px;
+        font-size: 11px;
+        margin-top: 10px
+      }
+
+      .micro {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        font-size: 10px;
+        color: #8c978a;
+        line-height: 1.7;
+        padding: 0 8px
+      }
+
+      .dot {
+        height: 7px;
+        width: 7px;
+        background: #83a773;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 5px
+      }
+
+      .demo {
+        margin-top: 25px;
+        font-size: 10px;
+        color: #929c91
+      }
+
+      .listcard {
+        background: white;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 22px;
+        margin: 14px 0
+      }
+
+      .listcard button,
+      .primary {
+        border: 0;
+        background: var(--green);
+        color: white;
+        border-radius: 8px;
+        padding: 11px 17px
+      }
+
+      .empty {
+        padding: 60px 20px;
+        text-align: center;
+        background: white;
+        border-radius: 15px
+      }
+
+      .hidden {
+        display: none !important
+      }
+
+      dialog {
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 28px;
+        width: 440px;
+        max-width: 92vw;
+        color: var(--ink)
+      }
+
+      dialog::backdrop {
+        background: #163c3460
+      }
+
+      dialog h2 {
+        margin-top: 0;
+        font: 700 22px Manrope
+      }
+
+      label {
+        display: block;
+        margin: 15px 0 6px;
+        color: #697c6e;
+        font-size: 12px
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        border: 1px solid #d8e1d4;
+        border-radius: 8px;
+        padding: 11px;
+        background: white;
+        color: var(--ink)
+      }
+
+      .dialogbuttons {
+        display: flex;
+        justify-content: end;
+        gap: 10px;
+        margin-top: 24px
+      }
+
+      .secondary {
+        border: 1px solid var(--line);
+        background: white;
+        padding: 10px 15px;
+        border-radius: 8px
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 28px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #203c33;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 12px;
+        z-index: 10;
+        box-shadow: 0 6px 30px #0002
+      }
+
+      .chatlog {
+        max-height: 250px;
+        overflow: auto
+      }
+
+      .bubble {
+        padding: 12px;
+        background: #f0f4e9;
+        border-radius: 10px;
+        margin: 10px 0;
+        font-size: 13px;
+        overflow-wrap: anywhere
+      }
+
+      @media(min-width:1400px) {
+        main {
+          padding-left: 65px;
+          padding-right: 65px
+        }
+
+        .cover {
+          height: 290px
+        }
+      }
+
+      @media(max-width:1050px) {
+        aside {
+          width: 185px;
+          padding: 25px 16px
+        }
+
+        main {
+          margin-left: 185px;
+          padding: 24px
+        }
+
+        .layout {
+          grid-template-columns: 1fr
+        }
+
+        .rail {
+          display: none
+        }
+      }
+
+      @media(max-width:640px) {
+        aside {
+          position: static;
+          width: auto;
+          padding: 16px 20px;
+          border-bottom: 1px solid var(--line)
+        }
+
+        .logo {
+          font-size: 25px
+        }
+
+        .tag,
+        .sidebar-note,
+        .user {
+          display: none
+        }
+
+        nav {
+          display: flex;
+          margin-top: 16px;
+          gap: 4px
+        }
+
+        nav button {
+          padding: 10px;
+          font-size: 11px
+        }
+
+        .navicon {
+          width: 20px
+        }
+
+        main {
+          margin: 0;
+          padding: 20px 16px
+        }
+
+        .top {
+          padding-bottom: 18px
+        }
+
+        .breadcrumb {
+          display: none
+        }
+
+        .heading {
+          margin: 27px 0 22px
+        }
+
+        .heading .pill {
+          display: none
+        }
+
+        h1 {
+          font-size: 27px
+        }
+
+        .heading p {
+          font-size: 12px
+        }
+
+        .layout {
+          display: block
+        }
+
+        .toolbar {
+          gap: 4px
+        }
+
+        .tabs button {
+          padding: 9px 13px
+        }
+
+        .cover {
+          height: 240px
+        }
+
+        .cardbody {
+          padding: 20px
+        }
+
+        .details {
+          gap: 14px
+        }
+
+        .top-right {
+          width: 100%;
+          justify-content: space-between
+        }
+      }
+
+      .discovery-meta {
+        font-size: 11px;
+        color: #687e6b;
+        margin: -5px 0 15px
+      }
+
+      .install-qr {
+        display: block;
+        width: 210px;
+        height: 210px;
+        margin: 20px auto;
+        image-rendering: pixelated
+      }
+
+      .install-steps {
+        padding: 14px;
+        background: #f2f5ec;
+        border-radius: 10px;
+        margin: 12px 0;
+        line-height: 1.7;
+        font-size: 13px
+      }
+
+      .install-steps b {
+        display: block
+      }
+
+      button {
+        touch-action: manipulation
+      }
+
+      .top-right {
+        flex-wrap: wrap
+      }
+
+      .linkbutton {
+        display: inline-block;
+        text-decoration: none;
+        color: var(--green);
+        padding: 12px 0;
+        font-size: 12px
+      }
+
+      input,
+      select,
+      textarea {
+        font-size: 16px
+      }
+
+      @media(max-width:640px) {
+        body {
+          padding-bottom: env(safe-area-inset-bottom)
+        }
+
+        nav {
+          overflow-x: auto
+        }
+
+        nav button {
+          white-space: nowrap;
+          min-height: 44px;
+          flex-shrink: 0
+        }
+
+        .top-right {
+          gap: 8px
+        }
+
+        .top-right .avatar {
+          display: none
+        }
+
+        .campus {
+          min-height: 44px
+        }
+
+        .actions button {
+          min-height: 56px
+        }
+
+        .actions .connect {
+          padding: 0 20px
+        }
+
+        .details {
+          flex-wrap: wrap;
+          row-gap: 10px
+        }
+
+        .subjectrow {
+          flex-wrap: wrap
+        }
+
+        .chips {
+          flex-wrap: wrap
+        }
+
+        .listcard button {
+          margin-bottom: 8px
+        }
+
+        .heading p {
+          font-size: 14px
+        }
+
+        .demo {
+          display: block
+        }
+
+        .hint {
+          font-size: 12px
+        }
+
+        .rating {
+          font-size: 11px
+        }
+      }
+
+      @media(prefers-reduced-motion:reduce) {
+        * {
+          scroll-behavior: auto !important
+        }
+      }
+    </style>
+    <link rel="manifest" href="https://socius-study-luis.citrustrout8.chatgpt.site/manifest.webmanifest">
+    <meta name="theme-color" content="#21664e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Socius">
+    <link rel="apple-touch-icon" href="https://socius-study-luis.citrustrout8.chatgpt.site/icon-192.png">
+  </head>
+  <body data-new-gr-c-s-check-loaded="14.1338.0" data-gr-ext-installed="">
+    <aside>
+      <div class="logo">socius <span>✳</span>
+      </div>
+      <div class="tag">BETTER TOGETHER.</div>
+      <nav>
+        <button class="" data-view="discover" fdprocessedid="jqilk">
+          <span class="navicon">◈</span>Discover </button>
+        <button data-view="matches" class="" fdprocessedid="go4mb">
+          <span class="navicon">♡</span>My connections <span id="count"></span>
+        </button>
+        <button data-view="sessions" class="" fdprocessedid="sqpmjl">
+          <span class="navicon">▦</span>Study plans </button>
+        <button data-view="profile" class="active" fdprocessedid="bvraqq">
+          <span class="navicon">◎</span>My profile </button>
+      </nav>
+      <div class="sidebar-note">✧ <b>A little help. <br>A big difference. </b>
+        <p>Your next “I get it now” moment starts with a connection.</p>
+      </div>
+      <div class="user">
+        <div class="avatar">L</div>
+        <div>Luis <small>College student</small>
+        </div>
+        <span style="margin-left:auto">⌄</span>
+      </div>
+    </aside>
+    <main>
+      <header class="top">
+        <div class="breadcrumb">Your campus. Your community.</div>
+        <div class="top-right">
+          <button class="campus" id="mobileBtn" fdprocessedid="cqxind">▣ Get the app</button>
+          <button class="campus" id="campusBtn" fdprocessedid="ompkm8">⌖ Central Piedmont ⌄</button>
+          <span class="avatar" style="width:32px;height:32px">L</span>
+        </div>
+      </header>
+      <div class="heading">
+        <div>
+          <h1 id="title">Make it your own.</h1>
+          <p id="subtitle">Find support that fits your classes and your schedule.</p>
+        </div>
+        <span class="pill">
+          <span class="dot"></span> A little progress, together </span>
+      </div>
+      <div class="layout">
+        <section id="content">
+          <div class="panel">
+            <h3>Your study profile</h3>
+            <label for="pname">Name</label>
+            <input id="pname" value="Luis" fdprocessedid="qxm26q">
+            <label for="pcampus">College</label>
+            <input id="pcampus" value="Central Piedmont" fdprocessedid="e2wpe">
+            <label for="pclasses">Classes (separate with commas)</label>
+            <input id="pclasses" value="Statistics, Economics, Accounting" fdprocessedid="74bcoy">
+            <label for="pgoal">What could you use help with?</label>
+            <textarea id="pgoal" placeholder="e.g. Understanding probability before my next exam"></textarea>
+            <label for="pavailability">When are you free?</label>
+            <input id="pavailability" value="cewfededfd" placeholder="e.g. Weekday evenings" fdprocessedid="fulvwc">
+            <button class="primary" style="margin-top:20px" id="saveprofile" fdprocessedid="h7q5hf">Save profile</button>
+          </div>
+        </section>
+        <section class="rail">
+          <div class="panel">
+            <div class="panel-top">
+              <h3 style="margin:0">Your classes</h3>
+              <button id="editClasses" fdprocessedid="4lk2gt">Edit</button>
+            </div>
+            <div id="classes">
+              <div class="classrow">
+                <div class="classicon">∑</div>
+                <div>
+                  <strong>Statistics</strong>
+                  <small>MAT 152</small>
+                </div>
+              </div>
+              <div class="classrow">
+                <div class="classicon">↗</div>
+                <div>
+                  <strong>Economics</strong>
+                  <small>ECO 251</small>
+                </div>
+              </div>
+              <div class="classrow">
+                <div class="classicon">▤</div>
+                <div>
+                  <strong>Accounting</strong>
+                  <small>ACC 120</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel help">
+            <span class="leaf">✳</span>
+            <h3>You have something <br>to teach, too. </h3>
+            <p>Good at a subject? Help someone find their footing.</p>
+            <button id="offer" fdprocessedid="fi8cgk">Become a peer tutor &nbsp; ↗</button>
+          </div>
+          <div class="panel">
+            <h3>A space to figure it out.</h3>
+            <p>Ask questions. Make mistakes. Find your people. Everyone starts somewhere.</p>
+            <div style="font-size:11px;margin-top:16px">♧ &nbsp; Learning comes first, always.</div>
+          </div>
+          <div class="micro">◉ <span>Meet in public campus spaces. <br>Share only what you're comfortable with. </span>
+          </div>
+          <div class="demo">INTERACTIVE DEMO · 100 sample profiles <br>Connections and plans save on this device. </div>
+        </section>
+      </div>
+    </main>
+    <dialog id="modal">
+      <h2>Your study people. On the go.</h2>
+      <p>Scan to open Socius on your phone, then add it to your home screen.</p>
+      <img class="install-qr" src="./Socius — Find your study people_files/mobile-qr.png" alt="QR code to open Socius on your phone" width="210" height="210">
+      <div class="install-steps">
+        <b>iPhone or iPad</b>Open this link in Safari, tap Share, then Add to Home Screen. Choose Open as Web App if shown, then tap Add.
+      </div>
+      <div class="install-steps">
+        <b>Android</b>Open this link in Chrome, tap the menu (⋮), then Install app or Add to Home screen.
+      </div>
+      <p style="font-size:12px;color:#687e6b">This is an installable web app. No App Store download needed. Access is limited to the people invited to this private prototype. Sample profiles and messages stay on your device.</p>
+      <a class="linkbutton" href="./Socius — Find your study people_files/mobile-qr.png" download="socius-mobile-qr.png">↓ Save QR code</a>
+      <div class="dialogbuttons">
+        <button class="secondary" id="close" fdprocessedid="wt0xoo">Close</button>
+      </div>
+    </dialog>
+    <div id="toast" class="toast hidden" role="status">Profile saved</div>
+    <script>
+      const profiles = [{
+        id: 1,
+        name: 'Maya Chen',
+        kind: 'Tutor',
+        subject: 'Statistics',
+        code: 'MAT 152',
+        desc: 'Let’s make statistics make sense. I use real-world examples and break the tricky stuff into small, manageable steps. No question is too small.',
+        major: 'Math major · 3rd year',
+        time: 'Tue & Thu afternoons',
+        place: 'On campus + online',
+        tags: ['Patient explainer', 'Practice problems', 'Exam prep'],
+        price: 'Free',
+        image: 'photo-1438761681033-6461ffad8d80',
+        rating: '4.9',
+        reviews: '24 sessions',
+        match: 'Great class match'
+      }, {
+        id: 2,
+        name: 'The Econ Collective',
+        kind: 'Study group',
+        subject: 'Economics',
+        code: 'ECO 251',
+        desc: 'Four students figuring out supply, demand, and everything in between. Join our relaxed weekly review before the next exam.',
+        major: '4 of 6 spots filled',
+        time: 'Wednesday · 5:00 PM',
+        place: 'Campus library',
+        tags: ['Weekly study', 'All levels welcome', 'Exam prep'],
+        price: 'Free',
+        image: 'photo-1523240795612-9a054b0db644',
+        rating: 'New',
+        reviews: 'Weekly meetup',
+        match: 'Fits your classes'
+      }, {
+        id: 3,
+        name: 'Jordan Davis',
+        kind: 'Tutor',
+        subject: 'Accounting',
+        code: 'ACC 120',
+        desc: 'Debits, credits, and balance sheets don’t have to be intimidating. Bring your questions and we’ll work through the concepts together.',
+        major: 'Accounting major · 4th year',
+        time: 'Mon & Wed evenings',
+        place: 'Online',
+        tags: ['Step-by-step', 'Homework concepts', 'Beginner friendly'],
+        price: '$15',
+        image: 'photo-1500648767791-00dcc994a43e',
+        rating: '4.8',
+        reviews: '18 sessions',
+        match: 'Evening availability'
+      }, {
+        id: 4,
+        name: 'Stats & Snacks',
+        kind: 'Study group',
+        subject: 'Statistics',
+        code: 'MAT 152',
+        desc: 'A welcoming study table for anyone who wants a little extra practice. We review notes, work through examples, and celebrate the small wins.',
+        major: '3 of 5 spots filled',
+        time: 'Thursday · 4:00 PM',
+        place: 'Campus library',
+        tags: ['Small group', 'Practice together', 'No pressure'],
+        price: 'Free',
+        image: 'photo-1522071820081-009f0129c71c',
+        rating: 'New',
+        reviews: 'Weekly meetup',
+        match: 'Great class match'
+      }, {
+        id: 5,
+        name: 'Alex Rivera',
+        kind: 'Tutor',
+        subject: 'Economics',
+        code: 'ECO 251',
+        desc: 'I struggled with economics at first, too. Now I help students connect the graphs to everyday life, one concept at a time.',
+        major: 'Business major · 3rd year',
+        time: 'Weekends',
+        place: 'On campus + online',
+        tags: ['Visual learning', 'Study strategies', 'Exam prep'],
+        price: '$12',
+        image: 'photo-1506794778202-cad84cf45f1d',
+        rating: '4.9',
+        reviews: '12 sessions',
+        match: 'Fits your classes'
+      }];
+      const firstNames = ['Avery', 'Sam', 'Taylor', 'Morgan', 'Riley', 'Casey', 'Jamie', 'Drew', 'Cameron', 'Parker', 'Quinn', 'Reese', 'Skyler', 'Emerson', 'Rowan', 'Elliot', 'Harper', 'Finley', 'Dakota'];
+      const lastNames = ['Patel', 'Williams', 'Garcia', 'Nguyen', 'Thompson'];
+      const subjects = [
+        ['Statistics', 'MAT 152'],
+        ['Economics', 'ECO 251'],
+        ['Accounting', 'ACC 120'],
+        ['Biology', 'BIO 111'],
+        ['Calculus', 'MAT 271'],
+        ['Chemistry', 'CHM 151'],
+        ['English', 'ENG 111'],
+        ['Psychology', 'PSY 150'],
+        ['Computer Science', 'CSC 151'],
+        ['History', 'HIS 131']
+      ];
+      const approaches = ['We turn big concepts into smaller steps and practice at your pace.', 'Bring your notes and your questions. We’ll connect the ideas with real examples.', 'A friendly space to review the basics, compare approaches, and build confidence.', 'Let’s work through practice questions and put together a plan for the next exam.', 'Visual explanations and relaxed review sessions to help the material click.'];
+      for (let i = 5; i < 100; i++) {
+        const n = i - 5;
+        const [sub, code] = subjects[n % 10];
+        const group = i % 4 === 0;
+        const base = profiles[group ? 1 : i % 2 === 0 ? 2 : 0];
+        profiles.push({
+          ...base,
+          id: i + 1,
+          name: group ? sub + ' Study Circle ' + (Math.floor(n / 10) + 1) : firstNames[n % 19] + ' ' + lastNames[Math.floor(n / 19)],
+          kind: group ? 'Study group' : 'Tutor',
+          subject: sub,
+          code,
+          desc: approaches[n % 5],
+          major: group ? `${2+n%3} of 6 spots filled` : `${sub} peer tutor · ${2+n%3}${(2+n%3)===2?'nd':(2+n%3)===3?'rd':'th'} year`,
+          time: ['Mon & Wed evenings', 'Tuesday · 4:00 PM', 'Thursday · 6:00 PM', 'Saturday · 11:00 AM', 'Weekday afternoons'][n % 5],
+          place: ['Campus library', 'Online', 'On campus + online'][n % 3],
+          tags: [
+            ['Visual learning', 'Exam prep', 'No pressure'],
+            ['Step-by-step', 'Practice together', 'Beginner friendly'],
+            ['Study strategies', 'Weekly review', 'All levels welcome']
+          ][n % 3],
+          price: group || n % 3 === 0 ? 'Free' : '$' + (10 + n % 4 * 5),
+          rating: group ? 'New' : (4.6 + n % 4 / 10).toFixed(1),
+          reviews: group ? 'Weekly meetup' : `${8+n%25} sessions`,
+          match: 'Explore this class'
+        });
+      }
+      let saved;
+      try {
+        saved = JSON.parse(localStorage.getItem('socius') || '{}')
+      } catch {
+        saved = {}
+      }
+      let state = {
+          connections: [],
+          plans: [],
+          messages: {},
+          classes: ['Statistics', 'Economics', 'Accounting'],
+          campus: 'Central Piedmont',
+          mainCampus: 'Central',
+          name: 'Luis',
+          ...saved
+        },
+        view = 'discover',
+        type = 'All',
+        subject = 'All classes',
+        index = 0,
+        skipped = [],
+        history = [];
+      const $ = s => document.querySelector(s);
+
+      function persist() {
+        localStorage.setItem('socius', JSON.stringify(state));
+        $('#count').textContent = state.connections.length || ''
+      }
+
+      function esc(s) {
+        return String(s).replace(/[&<>"']/g, c => ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;'
+        } [c]))
+      }
+
+      function toast(t) {
+        $('#toast').textContent = t;
+        $('#toast').classList.remove('hidden');
+        setTimeout(() => $('#toast').classList.add('hidden'), 3300)
+      }
+
+      function pool() {
+        return profiles.filter(p => (type === 'All' || p.kind === (type === 'Tutors' ? 'Tutor' : 'Study group')) && (subject === 'All classes' || p.subject === subject) && !state.connections.includes(p.id) && !skipped.includes(p.id))
+      }
+
+      function render() {
+        persist();
+        $('#campusBtn').textContent = '⌖  ' + state.mainCampus + '  ⌄';
+        $('#classes').innerHTML = state.classes.map((c, i) => `
+																					<div class="classrow">
+																						<div class="classicon">${['∑','↗','▤'][i%3]}</div>
+																						<div>
+																							<strong>${esc(c)}</strong>
+																							<small>${profiles.find(p=>p.subject===c)?.code||'Your course'}</small>
+																						</div>
+																					</div>`).join('');
+        document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.view === view));
+        $('#title').textContent = ({
+          discover: 'Find your study people.',
+          matches: 'Your people, your progress.',
+          sessions: 'Make time to figure it out.',
+          profile: 'Make it your own.'
+        })[view];
+        $('#subtitle').textContent = ({
+          discover: 'A tough class is easier with the right people beside you.',
+          matches: 'Start a conversation. Take the next step together.',
+          sessions: 'A little structure goes a long way.',
+          profile: 'Find support that fits your classes and your schedule.'
+        })[view];
+        let out = '';
+        if (view === 'discover') {
+          const p = pool()[0];
+          out = `
+																					<div class="toolbar">
+																						<div class="tabs">${['All','Tutors','Study groups'].map(t=>`
+																							<button class="${t===type?'selected':''}" data-type="${t}">${t}</button>`).join('')}
+																						</div>
+																						<button class="filter" id="filters">☷ &nbsp; Filters${subject!=='All classes'?' · 1':''}</button>
+																					</div>`;
+          out += `
+																					<div class="discovery-meta" aria-live="polite">${pool().length} profiles to explore · 100 sample profiles total</div>`;
+          out += p ? `
+																					<article class="card">
+																						<div class="cover">
+																							<img src="https://images.unsplash.com/${p.image}?auto=format&fit=crop&w=1000&q=85" alt="${p.kind==='Tutor'?esc(p.name):'Students working together'}">
+																								<span class="badge">${p.kind==='Tutor'?'✧ Peer tutor':'♧ Study group'}</span>
+																								<span class="badge match">↗ ${p.match}</span>
+																								<div class="covertext">
+																									<h2>${p.name}</h2>
+																									<span>${p.major}</span>
+																								</div>
+																							</div>
+																							<div class="cardbody">
+																								<div class="subjectrow">
+																									<span class="subject">${p.code} · ${p.subject}</span>
+																									<span class="rating">
+																										<b>★</b> ${p.rating} 
+																										<small>(${p.reviews})</small>
+																									</span>
+																								</div>
+																								<p class="bio">${p.desc}</p>
+																								<div class="details">
+																									<span>◷ &nbsp;${p.time}</span>
+																									<span>⌖ &nbsp;${p.place}</span>
+																								</div>
+																								<div class="chips">${p.tags.map(t=>`
+																									<span class="chip">${t}</span>`).join('')}
+																								</div>
+																								<div class="cardfoot">
+																									<span>
+																										<strong>${p.price}</strong>
+																										<small>${p.price==='Free'?'· peer support':'/ hour'}</small>
+																									</span>
+																									<small>Sample profile</small>
+																								</div>
+																							</div>
+																						</article>
+																						<div class="actions">
+																							<button class="undo" id="undo" aria-label="Undo last pass">↶</button>
+																							<button id="pass" aria-label="Pass on profile">×</button>
+																							<button class="connect" id="connect">♡ 
+																								<span>${p.kind==='Tutor'?'Connect with tutor':'Join study group'}</span>
+																							</button>
+																						</div>
+																						<div class="hint">Pass if it’s not your fit. Connect when it feels right.</div>` : `
+																						<div class="empty">
+																							<h2>You’re all caught up.</h2>
+																							<p>Try another class or rediscover the profiles you passed.</p>
+																							<button class="primary" id="reset">Discover again</button>
+																						</div>`;
+          $('#content').innerHTML = out;
+          document.querySelectorAll('[data-type]').forEach(b => b.onclick = () => {
+            type = b.dataset.type;
+            render()
+          });
+          $('#filters').onclick = filters;
+          if (p) {
+            $('#pass').onclick = () => {
+              skipped.push(p.id);
+              history.push(p.id);
+              render()
+            };
+            $('#connect').onclick = () => {
+              state.connections.push(p.id);
+              render();
+              toast(p.kind === 'Tutor' ? 'Tutor saved! Open connections to plan a session.' : 'Group added to your connections.')
+            };
+            $('#undo').onclick = () => {
+              const id = history.pop();
+              skipped = skipped.filter(x => x !== id);
+              render()
+            };
+            let x;
+            $('.card').ontouchstart = e => x = e.changedTouches[0].screenX;
+            $('.card').ontouchend = e => {
+              let delta = e.changedTouches[0].screenX - x;
+              if (delta > 75) $('#connect').click();
+              if (delta < -75) $('#pass').click()
+            }
+          } else $('#reset').onclick = () => {
+            skipped = [];
+            subject = 'All classes';
+            render()
+          };
+          return
+        }
+        if (view === 'matches') {
+          out = state.connections.length ? state.connections.map(id => {
+            const p = profiles.find(p => p.id === id);
+            return `
+																						<div class="listcard">
+																							<span class="subject">${p.kind} · ${p.code}</span>
+																							<h2>${p.name}</h2>
+																							<p>${p.time} · ${p.place}</p>
+																							<button data-chat="${id}">Open conversation</button>
+																							<button data-plan="${id}">Plan a session</button>
+																						</div>`
+          }).join('') : ' < div class = "empty" > < h2 > Your next study partner is out there. < /h2> < p > Connect with a tutor or group in Discover to get started. < /p> < button class = "primary"
+          id = "go" > Explore profiles < /button> < /div>'}
+          if (view === 'sessions') {
+            out = `
+																						<button class="primary" id="newplan">+ Create a study plan</button>` + state.plans.map((p, i) => `
+																						<div class="listcard">
+																							<span class="subject">${esc(p.subject)}</span>
+																							<h2>${esc(p.title)}</h2>
+																							<p>${esc(p.date.replace('T',' · '))} · ${esc(p.place)}</p>
+																							<button data-remove="${i}">Remove plan</button>
+																						</div>`).join('');
+            if (!state.plans.length) out += ' < div class = "empty" > < h2 > A fresh page. < /h2> < p > Schedule your first study session and give yourself time to learn. < /p> < /div>'}
+            if (view === 'profile') out = `
+																						<div class="panel">
+																							<h3>Your study profile</h3>
+																							<label for="pname">Name</label>
+																							<input id="pname" value="${esc(state.name)}">
+																								<label for="pcampus">College</label>
+																								<input id="pcampus" value="${esc(state.campus)}">
+																									<label for="pmainCampus">Main campus</label>
+																									<select id="pmainCampus">${['Levine','Central','Harper','Cato','Merancas'].map(c=>`
+																										<option value="${c}" ${c===state.mainCampus?'selected':''}>${c}</option>`).join('')}
+																									</select>
+																									<label for="pclasses">Classes (separate with commas)</label>
+																									<input id="pclasses" value="${esc(state.classes.join(', '))}">
+																										<label for="pgoal">What could you use help with?</label>
+																										<textarea id="pgoal" placeholder="e.g. Understanding probability before my next exam">${esc(state.goal||'')}</textarea>
+																										<label for="pavailability">When are you free?</label>
+																										<input id="pavailability" value="${esc(state.availability||'')}" placeholder="e.g. Weekday evenings">
+																											<button class="primary" style="margin-top:20px" id="saveprofile">Save profile</button>
+																										</div>`;
+            $('#content').innerHTML = out;
+            $('#go')?.addEventListener('click', () => {
+              view = 'discover';
+              render()
+            });
+            document.querySelectorAll('[data-chat]').forEach(b => b.onclick = () => chat(+b.dataset.chat));
+            document.querySelectorAll('[data-plan]').forEach(b => b.onclick = () => plan(+b.dataset.plan));
+            document.querySelectorAll('[data-remove]').forEach(b => b.onclick = () => {
+              state.plans.splice(+b.dataset.remove, 1);
+              render()
+            });
+            $('#newplan')?.addEventListener('click', () => plan());
+            $('#saveprofile')?.addEventListener('click', () => {
+              state.name = $('#pname').value.trim() || 'Student';
+              state.campus = $('#pcampus').value.trim() || 'Your college';
+              state.mainCampus = $('#pmainCampus').value;
+              state.classes = $('#pclasses').value.split(',').map(c => c.trim()).filter(Boolean);
+              state.goal = $('#pgoal').value;
+              state.availability = $('#pavailability').value;
+              render();
+              toast('Profile saved')
+            })
+          }
+
+          function modal(html, action) {
+            $('#modal').innerHTML = html;
+            $('#modal').showModal();
+            $('#close').onclick = () => $('#modal').close();
+            if (action) $('#modalform').onsubmit = e => {
+              e.preventDefault();
+              action()
+            }
+          }
+
+          function filters() {
+            modal(`
+																										<h2>Find your fit</h2>
+																										<form id="modalform">
+																											<label for="subject">Class</label>
+																											<select id="subject">${['All classes',...new Set([...state.classes,...profiles.map(p=>p.subject)])].map(s=>`
+																												<option ${s===subject?'selected':''}>${esc(s)}</option>`).join('')}
+																											</select>
+																											<p>Explore peer tutors and small study groups for your classes.</p>
+																											<div class="dialogbuttons">
+																												<button type="button" class="secondary" id="close">Cancel</button>
+																												<button class="primary">Apply filters</button>
+																											</div>
+																										</form>`, () => {
+              subject = $('#subject').value;
+              $('#modal').close();
+              render()
+            })
+          }
+
+          function plan(id) {
+            const p = profiles.find(p => p.id === id);
+            modal(`
+																										<h2>Make a study plan</h2>
+																										<form id="modalform">
+																											<label for="ptitle">Session title</label>
+																											<input id="ptitle" required value="${p?'Study with '+p.name:''}" placeholder="Statistics exam review">
+																												<label for="psubject">Class</label>
+																												<select id="psubject">${state.classes.map(s=>`
+																													<option ${s===p?.subject?'selected':''}>${esc(s)}</option>`).join('')}
+																												</select>
+																												<label for="pdate">Date & time</label>
+																												<input id="pdate" type="datetime-local" required>
+																													<label for="pplace">Location or meeting link</label>
+																													<input id="pplace" required placeholder="Campus library, second floor">
+																														<p style="font-size:12px;color:#82907f">This saves a personal plan. It does not invite or notify anyone.</p>
+																														<div class="dialogbuttons">
+																															<button type="button" class="secondary" id="close">Cancel</button>
+																															<button class="primary">Save plan</button>
+																														</div>
+																													</form>`, () => {
+              state.plans.push({
+                title: $('#ptitle').value,
+                subject: $('#psubject').value,
+                date: $('#pdate').value,
+                place: $('#pplace').value
+              });
+              $('#modal').close();
+              view = 'sessions';
+              render();
+              toast('Study plan saved')
+            })
+          }
+
+          function chat(id) {
+            const p = profiles.find(p => p.id === id);
+            modal(`
+																													<h2>${p.name}</h2>
+																													<p style="font-size:12px;color:#82907f">Demo conversation · Messages stay on this device and are not sent to a real person.</p>
+																													<div class="chatlog">${(state.messages[id]||[]).map(m=>`
+																														<div class="bubble">${esc(m)}</div>`).join('')||'
+																														<p>Introduce yourself and share what you’re working on.</p>'}
+																													</div>
+																													<form id="modalform">
+																														<label for="msg">Your message</label>
+																														<input id="msg" required maxlength="1000" placeholder="Hey! Could use some help with…">
+																															<div class="dialogbuttons">
+																																<button type="button" class="secondary" id="close">Close</button>
+																																<button class="primary">Save message</button>
+																															</div>
+																														</form>`, () => {
+              (state.messages[id] ?? = []).push($('#msg').value);
+              persist();
+              $('#modal').close();
+              chat(id)
+            })
+          }
+          document.querySelectorAll('[data-view]').forEach(b => b.onclick = () => {
+            view = b.dataset.view;
+            render()
+          });
+          $('#editClasses').onclick = () => {
+            view = 'profile';
+            render()
+          };
+          $('#campusBtn').onclick = () => {
+            view = 'profile';
+            render()
+          };
+          $('#offer').onclick = () => modal(`
+																														<h2>Share what you know.</h2>
+																														<form id="modalform">
+																															<label for="teach">What can you help with?</label>
+																															<input id="teach" required placeholder="e.g. Accounting, journal entries">
+																																<label for="teachbio">Your approach</label>
+																																<textarea id="teachbio" required placeholder="How would you help another student?"></textarea>
+																																<p style="font-size:12px;color:#82907f">Save a tutor profile draft on this device. Public tutor listings aren’t enabled in this demo.</p>
+																																<div class="dialogbuttons">
+																																	<button type="button" class="secondary" id="close">Cancel</button>
+																																	<button class="primary">Save tutor draft</button>
+																																</div>
+																															</form>`, () => {
+            state.tutor = {
+              subject: $('#teach').value,
+              bio: $('#teachbio').value
+            };
+            persist();
+            $('#modal').close();
+            toast('Tutor draft saved')
+          });
+          render();
+          let installPrompt = null;
+          window.addEventListener('beforeinstallprompt', e => {
+            e.preventDefault();
+            installPrompt = e
+          });
+          window.addEventListener('appinstalled', () => {
+            installPrompt = null;
+            toast('Socius added to your apps')
+          });
+
+          function installHelp() {
+            modal(`
+																															<h2>Your study people. On the go.</h2>
+																															<p>Scan to open Socius on your phone, then add it to your home screen.</p>
+																															<img class="install-qr" src="/mobile-qr.png" alt="QR code to open Socius on your phone" width="210" height="210">
+																																<div class="install-steps">
+																																	<b>iPhone or iPad</b>Open this link in Safari, tap Share, then Add to Home Screen. Choose Open as Web App if shown, then tap Add.
+																																</div>
+																																<div class="install-steps">
+																																	<b>Android</b>Open this link in Chrome, tap the menu (⋮), then Install app or Add to Home screen.
+																																</div>
+																																<p style="font-size:12px;color:#687e6b">This is an installable web app. No App Store download needed. Access is limited to the people invited to this private prototype. Sample profiles and messages stay on your device.</p>
+																																<a class="linkbutton" href="/mobile-qr.png" download="socius-mobile-qr.png">↓ Save QR code</a>
+																																<div class="dialogbuttons">
+																																	<button class="secondary" id="close">Close</button>${installPrompt?'
+																																	<button class="primary" id="installNow">Install Socius</button>':''}
+																																</div>`);
+            $('#installNow')?.addEventListener('click', async () => {
+              const prompt = installPrompt;
+              if (!prompt) return;
+              await prompt.prompt();
+              await prompt.userChoice;
+              installPrompt = null;
+              $('#modal').close()
+            })
+          }
+          $('#mobileBtn').onclick = installHelp;
+          if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});
+          if (new URLSearchParams(location.search).has('install')) installHelp();
+    </script>
+    <script>
+      (function() {
+        function c() {
+          var b = a.contentDocument || (a.contentWindow && a.contentWindow.document);
+          if (b) {
+            var d = b.createElement('script');
+            d.innerHTML = "window.__CF$cv$params={r:'a4d1d2f24e29fc15',t:'MTc5MjQzNDMxMg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+            b.getElementsByTagName('head')[0].appendChild(d)
+          }
+        }
+        if (document.body) {
+          var a = document.createElement('iframe');
+          a.height = 1;
+          a.width = 1;
+          a.style.position = 'absolute';
+          a.style.top = 0;
+          a.style.left = 0;
+          a.style.border = 'none';
+          a.style.visibility = 'hidden';
+          document.body.appendChild(a);
+          if ('loading' !== document.readyState) c();
+          else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c);
+          else {
+            var e = document.onreadystatechange || function() {};
+            document.onreadystatechange = function(b) {
+              e(b);
+              'loading' !== document.readyState && (document.onreadystatechange = e, c())
+            }
+          }
+        }
+      })();
+    </script>
+    <iframe height="1" width="1" style="position: absolute; top: 0px; left: 0px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; visibility: hidden;" src="./Socius — Find your study people_files/saved_resource.html"></iframe>
+    <span id="PING_IFRAME_FORM_DETECTION" style="display: none;"></span>
+  </body>
+  <grammarly-desktop-integration data-grammarly-shadow-root="true" style="visibility: visible !important;">
+    <template shadowrootmode="open">
+      <style>
+        div.grammarly-desktop-integration {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border: 0;
+          -moz-user-select: none;
+          -webkit-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+
+        div.grammarly-desktop-integration:before {
+          content: attr(data-content);
+        }
+      </style>
+      <div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div>
+    </template>
+  </grammarly-desktop-integration>
+</html>
