@@ -1,1615 +1,1863 @@
-<!DOCTYPE html>
-<!-- saved from url=(0052)https://socius-study-luis.citrustrout8.chatgpt.site/ -->
-<html lang="en">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Socius — Find your study people</title>
-    <meta name="description" content="Find tutors and study groups who get your classes and your schedule.">
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
-
-      :root {
-        --ink: #203c33;
-        --green: #21664e;
-        --lime: #d9ed94;
-        --muted: #7a867f;
-        --line: #e4e9e3
-      }
-
-      * {
-        box-sizing: border-box
-      }
-
-      body {
-        margin: 0;
-        background: #f7f8f3;
-        color: var(--ink);
-        font: 14px 'DM Sans', sans-serif
-      }
-
-      button,
-      input,
-      select,
-      textarea {
-        font: inherit
-      }
-
-      button {
-        cursor: pointer
-      }
-
-      button,
-      a,
-      input,
-      select,
-      textarea {
-        outline-offset: 4px
-      }
-
-      button {
-        color: inherit
-      }
-
-      aside {
-        width: 228px;
-        position: fixed;
-        inset: 0 auto 0 0;
-        background: white;
-        padding: 34px 23px;
-        border-right: 1px solid var(--line);
-        display: flex;
-        flex-direction: column
-      }
-
-      .logo {
-        font: 800 29px Manrope, sans-serif;
-        letter-spacing: -1.5px
-      }
-
-      .logo span {
-        color: #94ae48
-      }
-
-      .tag {
-        font-size: 10px;
-        letter-spacing: 2px;
-        color: #919b94;
-        margin: 7px 0 42px
-      }
-
-      nav {
-        display: grid;
-        gap: 9px
-      }
-
-      nav button {
-        background: none;
-        border: 0;
-        text-align: left;
-        padding: 14px 16px;
-        border-radius: 11px;
-        color: #7b8780;
-        font-weight: 500
-      }
-
-      nav button.active {
-        background: #edf3e6;
-        color: #24583e;
-        font-weight: 700
-      }
-
-      .navicon {
-        display: inline-block;
-        width: 29px;
-        font-size: 18px
-      }
-
-      .sidebar-note {
-        margin-top: auto;
-        background: #f5f7ee;
-        border-radius: 14px;
-        padding: 18px;
-        line-height: 1.7
-      }
-
-      .sidebar-note b {
-        display: block;
-        margin: 8px 0
-      }
-
-      .sidebar-note p {
-        font-size: 12px;
-        color: var(--muted)
-      }
-
-      .user {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-top: 25px;
-        font-size: 12px
-      }
-
-      .avatar {
-        border-radius: 50%;
-        background: #e5ebd9;
-        display: grid;
-        place-items: center;
-        width: 36px;
-        height: 36px;
-        font-weight: 700
-      }
-
-      .user small {
-        display: block;
-        color: #8c978e;
-        margin-top: 4px
-      }
-
-      main {
-        margin-left: 228px;
-        padding: 30px 44px;
-        max-width: 1600px
-      }
-
-      .top {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding-bottom: 27px;
-        border-bottom: 1px solid var(--line)
-      }
-
-      .breadcrumb {
-        color: #8c968f;
-        font-size: 12px
-      }
-
-      .campus {
-        border: 1px solid #dfe5da;
-        background: white;
-        border-radius: 9px;
-        padding: 10px 13px;
-        font-size: 12px
-      }
-
-      .top-right {
-        display: flex;
-        align-items: center;
-        gap: 20px
-      }
-
-      .heading {
-        display: flex;
-        justify-content: space-between;
-        align-items: end;
-        margin: 36px 0 26px
-      }
-
-      h1 {
-        font: 800 33px Manrope, sans-serif;
-        letter-spacing: -1.2px;
-        margin: 0 0 11px
-      }
-
-      p {
-        line-height: 1.65
-      }
-
-      .heading p {
-        color: var(--muted);
-        margin: 0
-      }
-
-      .pill {
-        background: #edf2e4;
-        padding: 8px 12px;
-        border-radius: 20px;
-        font-size: 11px;
-        color: #587540
-      }
-
-      .layout {
-        display: grid;
-        grid-template-columns: minmax(400px, 1fr) 282px;
-        gap: 28px
-      }
-
-      .toolbar {
-        display: flex;
-        gap: 8px;
-        align-items: center;
-        margin-bottom: 20px
-      }
-
-      .tabs {
-        display: flex;
-        background: #ebeee6;
-        padding: 4px;
-        border-radius: 10px;
-        gap: 2px
-      }
-
-      .tabs button {
-        border: 0;
-        background: none;
-        padding: 10px 18px;
-        color: #7a867b;
-        border-radius: 7px;
-        font-size: 12px
-      }
-
-      .tabs button.selected {
-        background: white;
-        color: #244f3c;
-        box-shadow: 0 2px 5px #00000008;
-        font-weight: 700
-      }
-
-      .filter {
-        margin-left: auto;
-        background: white;
-        border: 1px solid var(--line);
-        padding: 12px;
-        border-radius: 9px
-      }
-
-      .card {
-        border: 1px solid #dfe6db;
-        border-radius: 19px;
-        background: white;
-        overflow: hidden;
-        box-shadow: 0 9px 25px #203c3305
-      }
-
-      .cover {
-        height: 225px;
-        position: relative;
-        background: #dbe3d4;
-        overflow: hidden
-      }
-
-      .cover img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center 40%;
-        filter: saturate(.65)
-      }
-
-      .cover:after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(transparent 25%, #142b248c)
-      }
-
-      .badge {
-        position: absolute;
-        top: 18px;
-        left: 20px;
-        background: #ffffffeb;
-        padding: 7px 11px;
-        border-radius: 20px;
-        z-index: 1;
-        font-size: 11px
-      }
-
-      .match {
-        left: auto;
-        right: 18px;
-        color: #43632b;
-        background: #edf6d6
-      }
-
-      .covertext {
-        position: absolute;
-        bottom: 19px;
-        left: 24px;
-        z-index: 1;
-        color: white
-      }
-
-      .covertext h2 {
-        font: 700 27px Manrope;
-        margin: 0 0 6px
-      }
-
-      .covertext span {
-        font-size: 12px;
-        color: #f1f4e8
-      }
-
-      .cardbody {
-        padding: 22px 25px
-      }
-
-      .subjectrow {
-        display: flex;
-        justify-content: space-between;
-        gap: 8px;
-        align-items: center
-      }
-
-      .subject {
-        background: #eff3e7;
-        padding: 7px 10px;
-        border-radius: 6px;
-        font-size: 11px;
-        color: #567440
-      }
-
-      .rating {
-        font-size: 12px;
-        color: #657467
-      }
-
-      .rating b {
-        color: #bf9b45
-      }
-
-      .bio {
-        font-size: 13px;
-        line-height: 1.75;
-        color: #7a857e;
-        margin: 17px 0
-      }
-
-      .details {
-        display: flex;
-        gap: 22px;
-        color: #65766b;
-        font-size: 11px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid var(--line)
-      }
-
-      .chips {
-        display: flex;
-        gap: 8px;
-        margin-top: 17px
-      }
-
-      .chip {
-        border: 1px solid var(--line);
-        border-radius: 20px;
-        padding: 6px 10px;
-        color: #7e897e;
-        font-size: 10px
-      }
-
-      .cardfoot {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 20px;
-        font-size: 12px
-      }
-
-      .cardfoot strong {
-        font-size: 18px
-      }
-
-      .cardfoot small {
-        color: var(--muted)
-      }
-
-      .actions {
-        display: flex;
-        justify-content: center;
-        gap: 16px;
-        margin: 22px 0 13px
-      }
-
-      .actions button {
-        height: 55px;
-        width: 55px;
-        border-radius: 50%;
-        background: white;
-        border: 1px solid #dce3d5;
-        font-size: 23px;
-        box-shadow: 0 5px 12px #203c3305
-      }
-
-      .actions .connect {
-        width: auto;
-        border-radius: 30px;
-        background: var(--green);
-        color: white;
-        padding: 0 32px;
-        font-size: 14px;
-        display: flex;
-        gap: 13px;
-        align-items: center
-      }
-
-      .actions .undo {
-        font-size: 20px;
-        color: #929e87
-      }
-
-      .hint {
-        text-align: center;
-        font-size: 10px;
-        color: #929b91
-      }
-
-      .panel {
-        background: white;
-        border: 1px solid var(--line);
-        border-radius: 14px;
-        padding: 21px;
-        margin-bottom: 18px
-      }
-
-      .panel h3 {
-        font: 700 14px Manrope;
-        margin: 0 0 17px
-      }
-
-      .panel p {
-        font-size: 12px;
-        color: var(--muted);
-        margin: 10px 0
-      }
-
-      .panel-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: center
-      }
-
-      .panel-top button {
-        border: 0;
-        background: none;
-        color: var(--green);
-        font-size: 11px
-      }
-
-      .classrow {
-        display: flex;
-        align-items: center;
-        gap: 11px;
-        margin: 17px 0
-      }
-
-      .classicon {
-        height: 35px;
-        width: 35px;
-        display: grid;
-        place-items: center;
-        border-radius: 9px;
-        background: #f2f1e6;
-        color: #9a9864
-      }
-
-      .classrow strong {
-        font-size: 12px;
-        display: block
-      }
-
-      .classrow small {
-        font-size: 10px;
-        color: #8b948c;
-        display: block;
-        margin-top: 4px
-      }
-
-      .help {
-        background: #eaf0dc;
-        border-color: #e3e9d2
-      }
-
-      .help .leaf {
-        font-size: 23px
-      }
-
-      .help h3 {
-        font-size: 17px;
-        margin: 12px 0 7px
-      }
-
-      .help button {
-        border: 0;
-        border-radius: 8px;
-        background: #fff;
-        padding: 11px 14px;
-        font-size: 11px;
-        margin-top: 10px
-      }
-
-      .micro {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        font-size: 10px;
-        color: #8c978a;
-        line-height: 1.7;
-        padding: 0 8px
-      }
-
-      .dot {
-        height: 7px;
-        width: 7px;
-        background: #83a773;
-        border-radius: 50%;
-        display: inline-block;
-        margin-right: 5px
-      }
-
-      .demo {
-        margin-top: 25px;
-        font-size: 10px;
-        color: #929c91
-      }
-
-      .listcard {
-        background: white;
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        padding: 22px;
-        margin: 14px 0
-      }
-
-      .listcard button,
-      .primary {
-        border: 0;
-        background: var(--green);
-        color: white;
-        border-radius: 8px;
-        padding: 11px 17px
-      }
-
-      .empty {
-        padding: 60px 20px;
-        text-align: center;
-        background: white;
-        border-radius: 15px
-      }
-
-      .hidden {
-        display: none !important
-      }
-
-      dialog {
-        border: 1px solid var(--line);
-        border-radius: 18px;
-        padding: 28px;
-        width: 440px;
-        max-width: 92vw;
-        color: var(--ink)
-      }
-
-      dialog::backdrop {
-        background: #163c3460
-      }
-
-      dialog h2 {
-        margin-top: 0;
-        font: 700 22px Manrope
-      }
-
-      label {
-        display: block;
-        margin: 15px 0 6px;
-        color: #697c6e;
-        font-size: 12px
-      }
-
-      input,
-      select,
-      textarea {
-        width: 100%;
-        border: 1px solid #d8e1d4;
-        border-radius: 8px;
-        padding: 11px;
-        background: white;
-        color: var(--ink)
-      }
-
-      .dialogbuttons {
-        display: flex;
-        justify-content: end;
-        gap: 10px;
-        margin-top: 24px
-      }
-
-      .secondary {
-        border: 1px solid var(--line);
-        background: white;
-        padding: 10px 15px;
-        border-radius: 8px
-      }
-
-      .toast {
-        position: fixed;
-        bottom: 28px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: #203c33;
-        color: white;
-        padding: 15px 25px;
-        border-radius: 12px;
-        z-index: 10;
-        box-shadow: 0 6px 30px #0002
-      }
-
-      .chatlog {
-        max-height: 250px;
-        overflow: auto
-      }
-
-      .bubble {
-        padding: 12px;
-        background: #f0f4e9;
-        border-radius: 10px;
-        margin: 10px 0;
-        font-size: 13px;
-        overflow-wrap: anywhere
-      }
-
-      @media(min-width:1400px) {
-        main {
-          padding-left: 65px;
-          padding-right: 65px
-        }
-
-        .cover {
-          height: 290px
-        }
-      }
-
-      @media(max-width:1050px) {
-        aside {
-          width: 185px;
-          padding: 25px 16px
-        }
-
-        main {
-          margin-left: 185px;
-          padding: 24px
-        }
-
-        .layout {
-          grid-template-columns: 1fr
-        }
-
-        .rail {
-          display: none
-        }
-      }
-
-      @media(max-width:640px) {
-        aside {
-          position: static;
-          width: auto;
-          padding: 16px 20px;
-          border-bottom: 1px solid var(--line)
-        }
-
-        .logo {
-          font-size: 25px
-        }
-
-        .tag,
-        .sidebar-note,
-        .user {
-          display: none
-        }
-
-        nav {
-          display: flex;
-          margin-top: 16px;
-          gap: 4px
-        }
-
-        nav button {
-          padding: 10px;
-          font-size: 11px
-        }
-
-        .navicon {
-          width: 20px
-        }
-
-        main {
-          margin: 0;
-          padding: 20px 16px
-        }
-
-        .top {
-          padding-bottom: 18px
-        }
-
-        .breadcrumb {
-          display: none
-        }
-
-        .heading {
-          margin: 27px 0 22px
-        }
-
-        .heading .pill {
-          display: none
-        }
-
-        h1 {
-          font-size: 27px
-        }
-
-        .heading p {
-          font-size: 12px
-        }
-
-        .layout {
-          display: block
-        }
-
-        .toolbar {
-          gap: 4px
-        }
-
-        .tabs button {
-          padding: 9px 13px
-        }
-
-        .cover {
-          height: 240px
-        }
-
-        .cardbody {
-          padding: 20px
-        }
-
-        .details {
-          gap: 14px
-        }
-
-        .top-right {
-          width: 100%;
-          justify-content: space-between
-        }
-      }
-
-      .discovery-meta {
-        font-size: 11px;
-        color: #687e6b;
-        margin: -5px 0 15px
-      }
-
-      .install-qr {
-        display: block;
-        width: 210px;
-        height: 210px;
-        margin: 20px auto;
-        image-rendering: pixelated
-      }
-
-      .install-steps {
-        padding: 14px;
-        background: #f2f5ec;
-        border-radius: 10px;
-        margin: 12px 0;
-        line-height: 1.7;
-        font-size: 13px
-      }
-
-      .install-steps b {
-        display: block
-      }
-
-      button {
-        touch-action: manipulation
-      }
-
-      .top-right {
-        flex-wrap: wrap
-      }
-
-      .linkbutton {
-        display: inline-block;
-        text-decoration: none;
-        color: var(--green);
-        padding: 12px 0;
-        font-size: 12px
-      }
-
-      input,
-      select,
-      textarea {
-        font-size: 16px
-      }
-
-      @media(max-width:640px) {
-        body {
-          padding-bottom: env(safe-area-inset-bottom)
-        }
-
-        nav {
-          overflow-x: auto
-        }
-
-        nav button {
-          white-space: nowrap;
-          min-height: 44px;
-          flex-shrink: 0
-        }
-
-        .top-right {
-          gap: 8px
-        }
-
-        .top-right .avatar {
-          display: none
-        }
-
-        .campus {
-          min-height: 44px
-        }
-
-        .actions button {
-          min-height: 56px
-        }
-
-        .actions .connect {
-          padding: 0 20px
-        }
-
-        .details {
-          flex-wrap: wrap;
-          row-gap: 10px
-        }
-
-        .subjectrow {
-          flex-wrap: wrap
-        }
-
-        .chips {
-          flex-wrap: wrap
-        }
-
-        .listcard button {
-          margin-bottom: 8px
-        }
-
-        .heading p {
-          font-size: 14px
-        }
-
-        .demo {
-          display: block
-        }
-
-        .hint {
-          font-size: 12px
-        }
-
-        .rating {
-          font-size: 11px
-        }
-      }
-
-      @media(prefers-reduced-motion:reduce) {
-        * {
-          scroll-behavior: auto !important
-        }
-      }
-    </style>
-    <link rel="manifest" href="https://socius-study-luis.citrustrout8.chatgpt.site/manifest.webmanifest">
-    <meta name="theme-color" content="#21664e">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="Socius">
-    <link rel="apple-touch-icon" href="https://socius-study-luis.citrustrout8.chatgpt.site/icon-192.png">
-  </head>
-  <body data-new-gr-c-s-check-loaded="14.1338.0" data-gr-ext-installed="">
-    <aside>
-      <div class="logo">socius <span>✳</span>
+import React, { useState } from 'react';
+import { 
+  Sparkles, Heart, X, Star, MessageSquare, Calendar, Filter, 
+  User, MapPin, Clock, Award, 
+  Send, Plus, ChevronRight, ShieldCheck, ArrowLeft, RefreshCw,
+  Zap, Users, GraduationCap, Check, HeartHandshake,
+  Eye, Edit3, Camera, Trash2, LogIn, Lock, LogOut
+} from 'lucide-react';
+
+const BASE_NAMES = [
+  'Josiah Carpenter', 'Julia Abdelsamad', 'Luis Yaquian', 'Glenda Soria', 'Nourya Korotoum',
+  'Marcus Vance', 'Elena Rostova', 'David Chen', 'Maya Patel', 'Caleb Jackson',
+  'Sophia Martinez', 'Ethan Wright', 'Chloe Bennett', 'Liam O\'Connor', 'Aisha Khan',
+  'Dylan Brooks', 'Zoe Washington', 'Alexander Kim', 'Hannah Abbott', 'Lucas Silva',
+  'Olivia Trevino', 'Gabriel Mendoza', 'Isabel Ruiz', 'Nathan Brooks', 'Amara Okafor',
+  'Zachary Tanaka', 'Priya Sharma', 'Mateo Rossi', 'Clara Dupont', 'Benjamin Hayes',
+  'Fatima Al-Mansoor', 'Samuel Miller', 'Grace Taylor', 'Ryan Rodriguez', 'Victoria Nguyen',
+  'Isaac Fernandez', 'Mia Kowalski', 'Julian Vance', 'Samantha Reed', 'Oliver Jensen',
+  'Evelyn Zhang', 'Elijah Scott', 'Charlotte Morales', 'James Adams', 'Harper Becker',
+  'Benjamin Foster', 'Ella Johansson', 'William Cruz', 'Avery Lawson', 'Lucas Thorne',
+  'Lily Tanaka', 'Daniel Park', 'Emily Santos', 'Logan Kelly', 'Sofia Gomez',
+  'Jackson Myers', 'Madison Rivera', 'Sebastian Cole', 'Scarlett Diaz', 'Henry Price',
+  'Aria Jenkins', 'Owen Bailey', 'Chloe Morgan', 'Carter Bell', 'Grace Cooper',
+  'Jayden Howard', 'Riley Ward', 'Gabriel Cox', 'Nora Richardson', 'Anthony Wood',
+  'Camila Watson', 'Dominic Steele', 'Layla Brooks', 'Leo Barnes', 'Penelope Ross',
+  'Christopher Henderson', 'Riley Coleman', 'Andrew Jenkins', 'Zoey Perry', 'Joshua Powell',
+  'Lillian Long', 'Julian Patterson', 'Natalie Hughes', 'Adrian Flores', 'Sierra Washington',
+  'Joseph Butler', 'Brooklyn Simmons', 'David Foster', 'Zoe Sanders', 'Anthony Ross',
+  'Stella Bennett', 'Jonathan Morales', 'Leah Sullivan', 'Isaac Wallace', 'Maya Woods',
+  'Christian Cole', 'Addison West', 'Landon Jordan', 'Lucy Owens', 'Aaron Reynolds'
+];
+
+const BASE_MAJORS = [
+  'Computer Science & Math', 'Biochemistry', 'Economics & Finance', 'Physics',
+  'Biology & Pre-Med', 'Mechanical Engineering', 'Data Science', 'Psychology',
+  'Business Analytics', 'Neuroscience', 'Chemistry', 'Electrical Engineering'
+];
+
+const BASE_COURSES = [
+  { primary: 'CS 101', list: ['CS 101', 'MATH 201', 'CS 210'] },
+  { primary: 'CHEM 101', list: ['CHEM 101', 'BIO 202', 'CHEM 301'] },
+  { primary: 'ECON 201', list: ['ECON 201', 'STAT 110', 'FIN 300'] },
+  { primary: 'PHYS 101', list: ['PHYS 101', 'MATH 201', 'PHYS 202'] },
+  { primary: 'BIO 202', list: ['BIO 202', 'CHEM 101', 'BIO 101'] }
+];
+
+const BASE_GRADES = ['Earned A (4.0)', 'Earned A+', 'Earned A', 'Earned A-'];
+const BASE_LOCATIONS = [
+  'Main Library 2nd Floor', 'Science Center Lounge', 'Campus Coffee Shop / Zoom',
+  'Physics Lab Annex / Library', 'Student Union 3rd Floor', 'Engineering Atrium'
+];
+const BASE_FORMATS = ['In-Person', 'Hybrid (In-Person / Zoom)', 'Virtual (Zoom)'];
+const BASE_STYLES = ['Practice Problems', 'Exam Cram', 'Concept Review'];
+const BASE_GOALS = [
+  'Homework Help & Coding Logic', 'Exam Cram & Lab Reports',
+  'Weekly Concept Breakdown', 'Problem Set Sprints', 'Quiz & Assignment Prep'
+];
+const BASE_BIOS = [
+  'Explaining tricky concepts clearly! Free peer mentoring because we all deserve to crush our exams.',
+  'Pre-med student giving back to campus! Chemistry and Biology don\'t have to be weed-out courses.',
+  'Helping fellow students master calculus, econ, and formula cheat sheets with zero stress.',
+  'Stuck on tricky problem sets? I host casual, zero-cost 1-on-1 problem-solving sessions on campus.',
+  'Passionate about helping freshmen & sophomores gain confidence and top grades in core subjects.'
+];
+const BASE_AVATARS = [
+  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400',
+  'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=400',
+  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400',
+  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=400',
+  'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=400',
+  'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=400',
+  'https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?auto=format&fit=crop&q=80&w=400',
+  'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&q=80&w=400'
+];
+
+const generate100Tutors = () => {
+  const tutors = [];
+  for (let i = 1; i <= 100; i++) {
+    const name = BASE_NAMES[i - 1];
+    const major = BASE_MAJORS[(i - 1) % BASE_MAJORS.length];
+    const courseObj = BASE_COURSES[(i - 1) % BASE_COURSES.length];
+    const year = i % 2 === 0 ? 'Junior' : (i % 3 === 0 ? 'Senior' : 'Sophomore');
+    const avatar = BASE_AVATARS[(i - 1) % BASE_AVATARS.length];
+    const rating = +(4.7 + ((i * 13) % 4) * 0.1).toFixed(1);
+    const helpfulness = +(4.8 + ((i * 7) % 3) * 0.1).toFixed(1);
+    const understanding = +(4.7 + ((i * 11) % 4) * 0.1).toFixed(1);
+    const recommendability = +(4.8 + ((i * 5) % 3) * 0.1).toFixed(1);
+
+    tutors.push({
+      id: `t_${i}`,
+      name: name,
+      avatar: avatar,
+      major: major,
+      year: year,
+      courses: courseObj.list,
+      primaryCourse: courseObj.primary,
+      grade: BASE_GRADES[(i - 1) % BASE_GRADES.length],
+      verified: true,
+      volunteerHours: `${20 + ((i * 3) % 50)} Campus Volunteer Hrs`,
+      badge: '100% Free Peer Mentor',
+      rating: Math.min(5.0, rating),
+      reviewsCount: 12 + ((i * 7) % 40),
+      ratingsBreakdown: {
+        helpfulness: Math.min(5.0, helpfulness),
+        understanding: Math.min(5.0, understanding),
+        recommendability: Math.min(5.0, recommendability)
+      },
+      location: BASE_LOCATIONS[(i - 1) % BASE_LOCATIONS.length],
+      format: BASE_FORMATS[(i - 1) % BASE_FORMATS.length],
+      studyStyle: BASE_STYLES[(i - 1) % BASE_STYLES.length],
+      goal: BASE_GOALS[(i - 1) % BASE_GOALS.length],
+      bio: BASE_BIOS[(i - 1) % BASE_BIOS.length],
+      availability: [
+        ['Mon 2-5 PM', 'Wed 4-7 PM', 'Fri All Day'],
+        ['Tue/Thu 10 AM - 1 PM', 'Sun Afternoons'],
+        ['Mon/Wed 6-8 PM', 'Sat Morning'],
+        ['Everyday 5-7 PM']
+      ][(i - 1) % 4],
+      tags: ['Free Peer Mentor', 'Patient', 'Step-by-Step', courseObj.primary]
+    });
+  }
+  return tutors;
+};
+
+const INITIAL_TUTORS = generate100Tutors();
+
+const INITIAL_GROUPS = [
+  {
+    id: 'g1',
+    name: 'CS 101 Midterm Avengers',
+    avatar: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=400',
+    course: 'CS 101',
+    membersCount: 4,
+    maxMembers: 6,
+    host: 'Nourya Korotoum (Free Peer Host)',
+    location: 'Student Union Room 3B',
+    format: 'In-Person',
+    studyStyle: 'Exam Cram',
+    goal: 'Midterm Practice Quiz Sprint',
+    bio: 'Free open study group! We meet twice a week to solve past midterms and build practice problems together.',
+    schedule: 'Tues & Thurs @ 5:00 PM',
+    tags: ['Collaborative', 'Midterm Prep', 'Free Group', 'Snacks']
+  },
+  {
+    id: 'g2',
+    name: 'CHEM 101 Survival Squad',
+    avatar: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=400',
+    course: 'CHEM 101',
+    membersCount: 3,
+    maxMembers: 5,
+    host: 'Julia Abdelsamad',
+    location: 'Library Quiet Zone / Zoom',
+    format: 'Hybrid (In-Person / Zoom)',
+    studyStyle: 'Concept Review',
+    goal: 'Weekly Homework & Lab Review',
+    bio: '100% free, no-judgment zone for Chem beginners! We divide and conquer practice problems together.',
+    schedule: 'Mondays @ 6:30 PM',
+    tags: ['Beginner Friendly', 'Whiteboard Sessions', 'Free']
+  }
+];
+
+const INITIAL_MATCHES = [
+  {
+    id: 'm1',
+    name: 'Josiah Carpenter',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400',
+    course: 'CS 101',
+    type: 'Free Peer Tutor',
+    lastMessage: 'Hey! Ready to crush that recursion assignment together?',
+    unread: true,
+    messages: [
+      { sender: 'them', text: 'Hey there! I saw you matched with me for CS 101 peer help! 👋', time: '10:14 AM' },
+      { sender: 'them', text: 'Ready to crush that recursion assignment together? No costs ever—just happy to help!', time: '10:15 AM' }
+    ]
+  }
+];
+
+const PRESET_AVATARS = [
+  'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=400',
+  'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=400',
+  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400',
+  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=400'
+];
+
+export default function App() {
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [eduEmail, setEduEmail] = useState('nourya.k@university.edu');
+
+  const [activeTab, setActiveTab] = useState('swipe');
+  const [mode, setMode] = useState('tutors');
+  const [profileSubTab, setProfileSubTab] = useState('preview');
+
+  const [tutorDeck, setTutorDeck] = useState(INITIAL_TUTORS);
+  const [groupDeck, setGroupDeck] = useState(INITIAL_GROUPS);
+  const [swipeDirection, setSwipeDirection] = useState(null);
+  
+  const [matchModal, setMatchModal] = useState(null);
+  const [filterModalOpen, setFilterModalOpen] = useState(false);
+  const [bookingModalItem, setBookingModalItem] = useState(null);
+  const [ratingModalItem, setRatingModalItem] = useState(null);
+  const [cardPreviewModal, setCardPreviewModal] = useState(null);
+  
+  const [filters, setFilters] = useState({
+    course: 'All',
+    format: 'All',
+    studyStyle: 'All'
+  });
+
+  const [userProfile, setUserProfile] = useState({
+    name: 'Nourya Korotoum',
+    avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=400',
+    major: 'Computer Science & Data',
+    year: 'Sophomore',
+    bio: 'Passionate about coding, discrete math, and building cool projects! Happy to host free study sessions for fellow campus friends.',
+    location: 'Main Library 3rd Floor Quiet Zone',
+    format: 'In-Person',
+    studyStyle: 'Practice Problems',
+    goal: 'Homework Sprints & Exam Review',
+    status: 'Active (Visible to Campus)',
+    volunteerKarmaHrs: 18,
+    ratingsBreakdown: {
+      helpfulness: 5.0,
+      understanding: 5.0,
+      recommendability: 5.0
+    },
+    courses: [
+      { code: 'CS 101', grade: 'Earned A', verified: true },
+      { code: 'MATH 201', grade: 'Earned A-', verified: true }
+    ],
+    availability: ['Mon/Wed 3-6 PM', 'Fri Afternoon', 'Weekends'],
+    tags: ['Python', 'Discrete Math', 'Patient Tutor', 'Free Peer']
+  });
+
+  const [newCourseCode, setNewCourseCode] = useState('CHEM 101');
+  const [newCourseGrade, setNewCourseGrade] = useState('Earned A');
+  const [newTagInput, setNewTagInput] = useState('');
+
+  const [matches, setMatches] = useState(INITIAL_MATCHES);
+  const [activeChatId, setActiveChatId] = useState(null);
+  const [chatInputText, setChatInputText] = useState('');
+
+  const [bookedSessions, setBookedSessions] = useState([
+    {
+      id: 'b1',
+      title: 'CS 101 Midterm Prep with Josiah',
+      tutorName: 'Josiah Carpenter',
+      course: 'CS 101',
+      date: '2026-10-10',
+      time: '14:00',
+      location: 'Main Library 2nd Floor',
+      agenda: 'Recursion and Linked Lists practice problems',
+      cardDetails: INITIAL_TUTORS[0]
+    }
+  ]);
+
+  const [bookingForm, setBookingForm] = useState({
+    date: '',
+    time: '',
+    location: 'Main Library 2nd Floor',
+    agenda: ''
+  });
+
+  const renderStarRating = (score) => {
+    return (
+      <div className="flex items-center gap-1">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <Star
+            key={star}
+            className={`w-3.5 h-3.5 ${
+              star <= Math.round(score)
+                ? 'text-amber-400 fill-amber-400'
+                : 'text-slate-600'
+            }`}
+          />
+        ))}
+        <span className="text-xs font-bold text-amber-400 ml-1">{score.toFixed(1)}</span>
       </div>
-      <div class="tag">BETTER TOGETHER.</div>
-      <nav>
-        <button class="" data-view="discover" fdprocessedid="jqilk">
-          <span class="navicon">◈</span>Discover </button>
-        <button data-view="matches" class="" fdprocessedid="go4mb">
-          <span class="navicon">♡</span>My connections <span id="count"></span>
-        </button>
-        <button data-view="sessions" class="" fdprocessedid="sqpmjl">
-          <span class="navicon">▦</span>Study plans </button>
-        <button data-view="profile" class="active" fdprocessedid="bvraqq">
-          <span class="navicon">◎</span>My profile </button>
-      </nav>
-      <div class="sidebar-note">✧ <b>A little help. <br>A big difference. </b>
-        <p>Your next “I get it now” moment starts with a connection.</p>
-      </div>
-      <div class="user">
-        <div class="avatar">L</div>
-        <div>Luis <small>College student</small>
-        </div>
-        <span style="margin-left:auto">⌄</span>
-      </div>
-    </aside>
-    <main>
-      <header class="top">
-        <div class="breadcrumb">Your campus. Your community.</div>
-        <div class="top-right">
-          <button class="campus" id="mobileBtn" fdprocessedid="cqxind">▣ Get the app</button>
-          <button class="campus" id="campusBtn" fdprocessedid="ompkm8">⌖ Central Piedmont ⌄</button>
-          <span class="avatar" style="width:32px;height:32px">L</span>
-        </div>
-      </header>
-      <div class="heading">
-        <div>
-          <h1 id="title">Make it your own.</h1>
-          <p id="subtitle">Find support that fits your classes and your schedule.</p>
-        </div>
-        <span class="pill">
-          <span class="dot"></span> A little progress, together </span>
-      </div>
-      <div class="layout">
-        <section id="content">
-          <div class="panel">
-            <h3>Your study profile</h3>
-            <label for="pname">Name</label>
-            <input id="pname" value="Luis" fdprocessedid="qxm26q">
-            <label for="pcampus">College</label>
-            <input id="pcampus" value="Central Piedmont" fdprocessedid="e2wpe">
-            <label for="pclasses">Classes (separate with commas)</label>
-            <input id="pclasses" value="Statistics, Economics, Accounting" fdprocessedid="74bcoy">
-            <label for="pgoal">What could you use help with?</label>
-            <textarea id="pgoal" placeholder="e.g. Understanding probability before my next exam"></textarea>
-            <label for="pavailability">When are you free?</label>
-            <input id="pavailability" value="cewfededfd" placeholder="e.g. Weekday evenings" fdprocessedid="fulvwc">
-            <button class="primary" style="margin-top:20px" id="saveprofile" fdprocessedid="h7q5hf">Save profile</button>
-          </div>
-        </section>
-        <section class="rail">
-          <div class="panel">
-            <div class="panel-top">
-              <h3 style="margin:0">Your classes</h3>
-              <button id="editClasses" fdprocessedid="4lk2gt">Edit</button>
-            </div>
-            <div id="classes">
-              <div class="classrow">
-                <div class="classicon">∑</div>
-                <div>
-                  <strong>Statistics</strong>
-                  <small>MAT 152</small>
-                </div>
-              </div>
-              <div class="classrow">
-                <div class="classicon">↗</div>
-                <div>
-                  <strong>Economics</strong>
-                  <small>ECO 251</small>
-                </div>
-              </div>
-              <div class="classrow">
-                <div class="classicon">▤</div>
-                <div>
-                  <strong>Accounting</strong>
-                  <small>ACC 120</small>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="panel help">
-            <span class="leaf">✳</span>
-            <h3>You have something <br>to teach, too. </h3>
-            <p>Good at a subject? Help someone find their footing.</p>
-            <button id="offer" fdprocessedid="fi8cgk">Become a peer tutor &nbsp; ↗</button>
-          </div>
-          <div class="panel">
-            <h3>A space to figure it out.</h3>
-            <p>Ask questions. Make mistakes. Find your people. Everyone starts somewhere.</p>
-            <div style="font-size:11px;margin-top:16px">♧ &nbsp; Learning comes first, always.</div>
-          </div>
-          <div class="micro">◉ <span>Meet in public campus spaces. <br>Share only what you're comfortable with. </span>
-          </div>
-          <div class="demo">INTERACTIVE DEMO · 100 sample profiles <br>Connections and plans save on this device. </div>
-        </section>
-      </div>
-    </main>
-    <dialog id="modal">
-      <h2>Your study people. On the go.</h2>
-      <p>Scan to open Socius on your phone, then add it to your home screen.</p>
-      <img class="install-qr" src="./Socius — Find your study people_files/mobile-qr.png" alt="QR code to open Socius on your phone" width="210" height="210">
-      <div class="install-steps">
-        <b>iPhone or iPad</b>Open this link in Safari, tap Share, then Add to Home Screen. Choose Open as Web App if shown, then tap Add.
-      </div>
-      <div class="install-steps">
-        <b>Android</b>Open this link in Chrome, tap the menu (⋮), then Install app or Add to Home screen.
-      </div>
-      <p style="font-size:12px;color:#687e6b">This is an installable web app. No App Store download needed. Access is limited to the people invited to this private prototype. Sample profiles and messages stay on your device.</p>
-      <a class="linkbutton" href="./Socius — Find your study people_files/mobile-qr.png" download="socius-mobile-qr.png">↓ Save QR code</a>
-      <div class="dialogbuttons">
-        <button class="secondary" id="close" fdprocessedid="wt0xoo">Close</button>
-      </div>
-    </dialog>
-    <div id="toast" class="toast hidden" role="status">Profile saved</div>
-    <script>
-      const profiles = [{
-        id: 1,
-        name: 'Maya Chen',
-        kind: 'Tutor',
-        subject: 'Statistics',
-        code: 'MAT 152',
-        desc: 'Let’s make statistics make sense. I use real-world examples and break the tricky stuff into small, manageable steps. No question is too small.',
-        major: 'Math major · 3rd year',
-        time: 'Tue & Thu afternoons',
-        place: 'On campus + online',
-        tags: ['Patient explainer', 'Practice problems', 'Exam prep'],
-        price: 'Free',
-        image: 'photo-1438761681033-6461ffad8d80',
-        rating: '4.9',
-        reviews: '24 sessions',
-        match: 'Great class match'
-      }, {
-        id: 2,
-        name: 'The Econ Collective',
-        kind: 'Study group',
-        subject: 'Economics',
-        code: 'ECO 251',
-        desc: 'Four students figuring out supply, demand, and everything in between. Join our relaxed weekly review before the next exam.',
-        major: '4 of 6 spots filled',
-        time: 'Wednesday · 5:00 PM',
-        place: 'Campus library',
-        tags: ['Weekly study', 'All levels welcome', 'Exam prep'],
-        price: 'Free',
-        image: 'photo-1523240795612-9a054b0db644',
-        rating: 'New',
-        reviews: 'Weekly meetup',
-        match: 'Fits your classes'
-      }, {
-        id: 3,
-        name: 'Jordan Davis',
-        kind: 'Tutor',
-        subject: 'Accounting',
-        code: 'ACC 120',
-        desc: 'Debits, credits, and balance sheets don’t have to be intimidating. Bring your questions and we’ll work through the concepts together.',
-        major: 'Accounting major · 4th year',
-        time: 'Mon & Wed evenings',
-        place: 'Online',
-        tags: ['Step-by-step', 'Homework concepts', 'Beginner friendly'],
-        price: '$15',
-        image: 'photo-1500648767791-00dcc994a43e',
-        rating: '4.8',
-        reviews: '18 sessions',
-        match: 'Evening availability'
-      }, {
-        id: 4,
-        name: 'Stats & Snacks',
-        kind: 'Study group',
-        subject: 'Statistics',
-        code: 'MAT 152',
-        desc: 'A welcoming study table for anyone who wants a little extra practice. We review notes, work through examples, and celebrate the small wins.',
-        major: '3 of 5 spots filled',
-        time: 'Thursday · 4:00 PM',
-        place: 'Campus library',
-        tags: ['Small group', 'Practice together', 'No pressure'],
-        price: 'Free',
-        image: 'photo-1522071820081-009f0129c71c',
-        rating: 'New',
-        reviews: 'Weekly meetup',
-        match: 'Great class match'
-      }, {
-        id: 5,
-        name: 'Alex Rivera',
-        kind: 'Tutor',
-        subject: 'Economics',
-        code: 'ECO 251',
-        desc: 'I struggled with economics at first, too. Now I help students connect the graphs to everyday life, one concept at a time.',
-        major: 'Business major · 3rd year',
-        time: 'Weekends',
-        place: 'On campus + online',
-        tags: ['Visual learning', 'Study strategies', 'Exam prep'],
-        price: '$12',
-        image: 'photo-1506794778202-cad84cf45f1d',
-        rating: '4.9',
-        reviews: '12 sessions',
-        match: 'Fits your classes'
-      }];
-      const firstNames = ['Avery', 'Sam', 'Taylor', 'Morgan', 'Riley', 'Casey', 'Jamie', 'Drew', 'Cameron', 'Parker', 'Quinn', 'Reese', 'Skyler', 'Emerson', 'Rowan', 'Elliot', 'Harper', 'Finley', 'Dakota'];
-      const lastNames = ['Patel', 'Williams', 'Garcia', 'Nguyen', 'Thompson'];
-      const subjects = [
-        ['Statistics', 'MAT 152'],
-        ['Economics', 'ECO 251'],
-        ['Accounting', 'ACC 120'],
-        ['Biology', 'BIO 111'],
-        ['Calculus', 'MAT 271'],
-        ['Chemistry', 'CHM 151'],
-        ['English', 'ENG 111'],
-        ['Psychology', 'PSY 150'],
-        ['Computer Science', 'CSC 151'],
-        ['History', 'HIS 131']
+    );
+  };
+
+  const handleSwipe = (direction) => {
+    const currentDeck = mode === 'tutors' ? tutorDeck : groupDeck;
+    const currentItem = currentDeck[0];
+    if (!currentItem) return;
+
+    setSwipeDirection(direction);
+
+    setTimeout(() => {
+      if (direction === 'left' || direction === 'up') {
+        setMatchModal(currentItem);
+        
+        const newMatch = {
+          id: `m_${currentItem.id}`,
+          name: currentItem.name,
+          avatar: currentItem.avatar,
+          course: currentItem.primaryCourse || currentItem.course,
+          type: mode === 'tutors' ? 'Free Peer Tutor' : 'Free Study Group',
+          lastMessage: direction === 'up' ? 'Super Study Connection Sent!' : 'You matched! Say hello to schedule your free study session.',
+          unread: true,
+          messages: [
+            { sender: 'them', text: `Hi! Thanks for connecting for ${currentItem.primaryCourse || currentItem.course}! When are you free to study?`, time: 'Just now' }
+          ]
+        };
+
+        setMatches(prev => [newMatch, ...prev]);
+      }
+
+      if (mode === 'tutors') {
+        setTutorDeck(prev => prev.slice(1));
+      } else {
+        setGroupDeck(prev => prev.slice(1));
+      }
+      setSwipeDirection(null);
+    }, 300);
+  };
+
+  const activeChat = matches.find(m => m.id === activeChatId);
+
+  const handleSendMessage = () => {
+    if (!chatInputText.trim() || !activeChatId) return;
+
+    const userMsg = {
+      sender: 'me',
+      text: chatInputText,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+
+    setMatches(prev => prev.map(m => {
+      if (m.id === activeChatId) {
+        return {
+          ...m,
+          lastMessage: chatInputText,
+          messages: [...m.messages, userMsg]
+        };
+      }
+      return m;
+    }));
+
+    setChatInputText('');
+
+    setTimeout(() => {
+      const autoResponses = [
+        "Sounds like a plan! Let's lock in a study time at the library. Completely free, of course!",
+        "Awesome! I'll bring my lecture notes and practice problem sets.",
+        "Sounds great! Feel free to hit 'Schedule Free Session' top right so we lock it into our calendars!",
+        "Perfect! Happy to help out—see you on campus!"
       ];
-      const approaches = ['We turn big concepts into smaller steps and practice at your pace.', 'Bring your notes and your questions. We’ll connect the ideas with real examples.', 'A friendly space to review the basics, compare approaches, and build confidence.', 'Let’s work through practice questions and put together a plan for the next exam.', 'Visual explanations and relaxed review sessions to help the material click.'];
-      for (let i = 5; i < 100; i++) {
-        const n = i - 5;
-        const [sub, code] = subjects[n % 10];
-        const group = i % 4 === 0;
-        const base = profiles[group ? 1 : i % 2 === 0 ? 2 : 0];
-        profiles.push({
-          ...base,
-          id: i + 1,
-          name: group ? sub + ' Study Circle ' + (Math.floor(n / 10) + 1) : firstNames[n % 19] + ' ' + lastNames[Math.floor(n / 19)],
-          kind: group ? 'Study group' : 'Tutor',
-          subject: sub,
-          code,
-          desc: approaches[n % 5],
-          major: group ? `${2+n%3} of 6 spots filled` : `${sub} peer tutor · ${2+n%3}${(2+n%3)===2?'nd':(2+n%3)===3?'rd':'th'} year`,
-          time: ['Mon & Wed evenings', 'Tuesday · 4:00 PM', 'Thursday · 6:00 PM', 'Saturday · 11:00 AM', 'Weekday afternoons'][n % 5],
-          place: ['Campus library', 'Online', 'On campus + online'][n % 3],
-          tags: [
-            ['Visual learning', 'Exam prep', 'No pressure'],
-            ['Step-by-step', 'Practice together', 'Beginner friendly'],
-            ['Study strategies', 'Weekly review', 'All levels welcome']
-          ][n % 3],
-          price: group || n % 3 === 0 ? 'Free' : '$' + (10 + n % 4 * 5),
-          rating: group ? 'New' : (4.6 + n % 4 / 10).toFixed(1),
-          reviews: group ? 'Weekly meetup' : `${8+n%25} sessions`,
-          match: 'Explore this class'
-        });
-      }
-      let saved;
-      try {
-        saved = JSON.parse(localStorage.getItem('socius') || '{}')
-      } catch {
-        saved = {}
-      }
-      let state = {
-          connections: [],
-          plans: [],
-          messages: {},
-          classes: ['Statistics', 'Economics', 'Accounting'],
-          campus: 'Central Piedmont',
-          name: 'Luis',
-          ...saved,
-          mainCampus: saved.mainCampus || 'Central'
-        },
-        view = 'discover',
-        type = 'All',
-        subject = 'All classes',
-        index = 0,
-        skipped = [],
-        history = [];
-      const $ = s => document.querySelector(s);
+      const randomReply = autoResponses[Math.floor(Math.random() * autoResponses.length)];
 
-      function persist() {
-        try {
-          localStorage.setItem('socius', JSON.stringify(state))
-        } catch (error) {
-          console.warn('Local saving is unavailable in this browser session.', error)
-        }
-        const count = $('#count');
-        if (count) count.textContent = state.connections.length || ''
-      }
+      const replyMsg = {
+        sender: 'them',
+        text: randomReply,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      };
 
-      function esc(s) {
-        return String(s).replace(/[&<>"']/g, c => ({
-          '&': '&amp;',
-          '<': '&lt;',
-          '>': '&gt;',
-          '"': '&quot;',
-          "'": '&#39;'
-        } [c]))
-      }
-
-      function toast(t) {
-        $('#toast').textContent = t;
-        $('#toast').classList.remove('hidden');
-        setTimeout(() => $('#toast').classList.add('hidden'), 3300)
-      }
-
-      function pool() {
-        return profiles.filter(p => (type === 'All' || p.kind === (type === 'Tutors' ? 'Tutor' : 'Study group')) && (subject === 'All classes' || p.subject === subject) && !state.connections.includes(p.id) && !skipped.includes(p.id))
-      }
-
-      function render() {
-        persist();
-        $('#campusBtn').textContent = '⌖  ' + state.mainCampus + '  ⌄';
-        $('#classes').innerHTML = state.classes.map((c, i) => `
-																					<div class="classrow">
-																						<div class="classicon">${['∑','↗','▤'][i%3]}</div>
-																						<div>
-																							<strong>${esc(c)}</strong>
-																							<small>${profiles.find(p=>p.subject===c)?.code||'Your course'}</small>
-																						</div>
-																					</div>`).join('');
-        document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.view === view));
-        $('#title').textContent = ({
-          discover: 'Find your study people.',
-          matches: 'Your people, your progress.',
-          sessions: 'Make time to figure it out.',
-          profile: 'Make it your own.'
-        })[view];
-        $('#subtitle').textContent = ({
-          discover: 'A tough class is easier with the right people beside you.',
-          matches: 'Start a conversation. Take the next step together.',
-          sessions: 'A little structure goes a long way.',
-          profile: 'Find support that fits your classes and your schedule.'
-        })[view];
-        let out = '';
-        if (view === 'discover') {
-          const p = pool()[0];
-          out = `
-																					<div class="toolbar">
-																						<div class="tabs">${['All','Tutors','Study groups'].map(t=>`
-																							<button class="${t===type?'selected':''}" data-type="${t}">${t}</button>`).join('')}
-																						</div>
-																						<button class="filter" id="filters">☷ &nbsp; Filters${subject!=='All classes'?' · 1':''}</button>
-																					</div>`;
-          out += `
-																					<div class="discovery-meta" aria-live="polite">${pool().length} profiles to explore · 100 sample profiles total</div>`;
-          out += p ? `
-																					<article class="card">
-																						<div class="cover">
-																							<img src="https://images.unsplash.com/${p.image}?auto=format&fit=crop&w=1000&q=85" alt="${p.kind==='Tutor'?esc(p.name):'Students working together'}">
-																								<span class="badge">${p.kind==='Tutor'?'✧ Peer tutor':'♧ Study group'}</span>
-																								<span class="badge match">↗ ${p.match}</span>
-																								<div class="covertext">
-																									<h2>${p.name}</h2>
-																									<span>${p.major}</span>
-																								</div>
-																							</div>
-																							<div class="cardbody">
-																								<div class="subjectrow">
-																									<span class="subject">${p.code} · ${p.subject}</span>
-																									<span class="rating">
-																										<b>★</b> ${p.rating} 
-																										<small>(${p.reviews})</small>
-																									</span>
-																								</div>
-																								<p class="bio">${p.desc}</p>
-																								<div class="details">
-																									<span>◷ &nbsp;${p.time}</span>
-																									<span>⌖ &nbsp;${p.place}</span>
-																								</div>
-																								<div class="chips">${p.tags.map(t=>`
-																									<span class="chip">${t}</span>`).join('')}
-																								</div>
-																								<div class="cardfoot">
-																									<span>
-																										<strong>${p.price}</strong>
-																										<small>${p.price==='Free'?'· peer support':'/ hour'}</small>
-																									</span>
-																									<small>Sample profile</small>
-																								</div>
-																							</div>
-																						</article>
-																						<div class="actions">
-																							<button class="undo" id="undo" aria-label="Undo last pass">↶</button>
-																							<button id="pass" aria-label="Pass on profile">×</button>
-																							<button class="connect" id="connect">♡ 
-																								<span>${p.kind==='Tutor'?'Connect with tutor':'Join study group'}</span>
-																							</button>
-																						</div>
-																						<div class="hint">Pass if it’s not your fit. Connect when it feels right.</div>` : `
-																						<div class="empty">
-																							<h2>You’re all caught up.</h2>
-																							<p>Try another class or rediscover the profiles you passed.</p>
-																							<button class="primary" id="reset">Discover again</button>
-																						</div>`;
-          $('#content').innerHTML = out;
-          document.querySelectorAll('[data-type]').forEach(b => b.onclick = () => {
-            type = b.dataset.type;
-            render()
-          });
-          $('#filters').onclick = filters;
-          if (p) {
-            $('#pass').onclick = () => {
-              skipped.push(p.id);
-              history.push(p.id);
-              render()
-            };
-            $('#connect').onclick = () => {
-              state.connections.push(p.id);
-              render();
-              toast(p.kind === 'Tutor' ? 'Tutor saved! Open connections to plan a session.' : 'Group added to your connections.')
-            };
-            $('#undo').onclick = () => {
-              const id = history.pop();
-              skipped = skipped.filter(x => x !== id);
-              render()
-            };
-            let x;
-            $('.card').ontouchstart = e => x = e.changedTouches[0].screenX;
-            $('.card').ontouchend = e => {
-              let delta = e.changedTouches[0].screenX - x;
-              if (delta > 75) $('#connect').click();
-              if (delta < -75) $('#pass').click()
-            }
-          } else $('#reset').onclick = () => {
-            skipped = [];
-            subject = 'All classes';
-            render()
+      setMatches(prev => prev.map(m => {
+        if (m.id === activeChatId) {
+          return {
+            ...m,
+            lastMessage: randomReply,
+            messages: [...m.messages, replyMsg]
           };
-          return
         }
-        if (view === 'matches') {
-          out = state.connections.length ? state.connections.map(id => {
-            const p = profiles.find(p => p.id === id);
-            return `
-																						<div class="listcard">
-																							<span class="subject">${p.kind} · ${p.code}</span>
-																							<h2>${p.name}</h2>
-																							<p>${p.time} · ${p.place}</p>
-																							<button data-chat="${id}">Open conversation</button>
-																							<button data-plan="${id}">Plan a session</button>
-																						</div>`
-          }).join('') : ' < div class = "empty" > < h2 > Your next study partner is out there. < /h2> < p > Connect with a tutor or group in Discover to get started. < /p> < button class = "primary"
-          id = "go" > Explore profiles < /button> < /div>'}
-          if (view === 'sessions') {
-            out = `
-																						<button class="primary" id="newplan">+ Create a study plan</button>` + state.plans.map((p, i) => `
-																						<div class="listcard">
-																							<span class="subject">${esc(p.subject)}</span>
-																							<h2>${esc(p.title)}</h2>
-																							<p>${esc(p.date.replace('T',' · '))} · ${esc(p.place)}</p>
-																							<button data-remove="${i}">Remove plan</button>
-																						</div>`).join('');
-            if (!state.plans.length) out += ' < div class = "empty" > < h2 > A fresh page. < /h2> < p > Schedule your first study session and give yourself time to learn. < /p> < /div>'}
-            if (view === 'profile') out = `
-																						<div class="panel">
-																							<h3>Your study profile</h3>
-																							<label for="pname">Name</label>
-																							<input id="pname" value="${esc(state.name)}">
-																								<label for="pcampus">College</label>
-																								<input id="pcampus" value="${esc(state.campus)}">
-																									<label for="pmainCampus">Main campus</label>
-																									<select id="pmainCampus">${['Levine','Central','Harper','Cato','Merancas'].map(c=>`
-																										<option value="${c}" ${c===state.mainCampus?'selected':''}>${c}</option>`).join('')}
-																									</select>
-																									<label for="pclasses">Classes (separate with commas)</label>
-																									<input id="pclasses" value="${esc(state.classes.join(', '))}">
-																										<label for="pgoal">What could you use help with?</label>
-																										<textarea id="pgoal" placeholder="e.g. Understanding probability before my next exam">${esc(state.goal||'')}</textarea>
-																										<label for="pavailability">When are you free?</label>
-																										<input id="pavailability" value="${esc(state.availability||'')}" placeholder="e.g. Weekday evenings">
-																											<button class="primary" style="margin-top:20px" id="saveprofile">Save profile</button>
-																										</div>`;
-            $('#content').innerHTML = out;
-            $('#go')?.addEventListener('click', () => {
-              view = 'discover';
-              render()
-            });
-            document.querySelectorAll('[data-chat]').forEach(b => b.onclick = () => chat(+b.dataset.chat));
-            document.querySelectorAll('[data-plan]').forEach(b => b.onclick = () => plan(+b.dataset.plan));
-            document.querySelectorAll('[data-remove]').forEach(b => b.onclick = () => {
-              state.plans.splice(+b.dataset.remove, 1);
-              render()
-            });
-            $('#newplan')?.addEventListener('click', () => plan());
-            $('#saveprofile')?.addEventListener('click', () => {
-              state.name = $('#pname').value.trim() || 'Student';
-              state.campus = $('#pcampus').value.trim() || 'Your college';
-              state.mainCampus = $('#pmainCampus').value;
-              state.classes = $('#pclasses').value.split(',').map(c => c.trim()).filter(Boolean);
-              state.goal = $('#pgoal').value;
-              state.availability = $('#pavailability').value;
-              render();
-              toast('Profile saved')
-            })
-          }
+        return m;
+      }));
+    }, 1200);
+  };
 
-          function modal(html, action) {
-            $('#modal').innerHTML = html;
-            $('#modal').showModal();
-            $('#close').onclick = () => $('#modal').close();
-            if (action) $('#modalform').onsubmit = e => {
-              e.preventDefault();
-              action()
-            }
-          }
+  const handleConfirmBooking = (e) => {
+    e.preventDefault();
+    if (!bookingModalItem) return;
 
-          function filters() {
-            modal(`
-																										<h2>Find your fit</h2>
-																										<form id="modalform">
-																											<label for="subject">Class</label>
-																											<select id="subject">${['All classes',...new Set([...state.classes,...profiles.map(p=>p.subject)])].map(s=>`
-																												<option ${s===subject?'selected':''}>${esc(s)}</option>`).join('')}
-																											</select>
-																											<p>Explore peer tutors and small study groups for your classes.</p>
-																											<div class="dialogbuttons">
-																												<button type="button" class="secondary" id="close">Cancel</button>
-																												<button class="primary">Apply filters</button>
-																											</div>
-																										</form>`, () => {
-              subject = $('#subject').value;
-              $('#modal').close();
-              render()
-            })
-          }
+    const newSession = {
+      id: `session_${Date.now()}`,
+      title: `${bookingModalItem.course || bookingModalItem.primaryCourse} with ${bookingModalItem.name}`,
+      tutorName: bookingModalItem.name,
+      course: bookingModalItem.course || bookingModalItem.primaryCourse,
+      date: bookingForm.date,
+      time: bookingForm.time,
+      location: bookingForm.location,
+      agenda: bookingForm.agenda,
+      cardDetails: bookingModalItem
+    };
 
-          function plan(id) {
-            const p = profiles.find(p => p.id === id);
-            modal(`
-																										<h2>Make a study plan</h2>
-																										<form id="modalform">
-																											<label for="ptitle">Session title</label>
-																											<input id="ptitle" required value="${p?'Study with '+p.name:''}" placeholder="Statistics exam review">
-																												<label for="psubject">Class</label>
-																												<select id="psubject">${state.classes.map(s=>`
-																													<option ${s===p?.subject?'selected':''}>${esc(s)}</option>`).join('')}
-																												</select>
-																												<label for="pdate">Date & time</label>
-																												<input id="pdate" type="datetime-local" required>
-																													<label for="pplace">Location or meeting link</label>
-																													<input id="pplace" required placeholder="Campus library, second floor">
-																														<p style="font-size:12px;color:#82907f">This saves a personal plan. It does not invite or notify anyone.</p>
-																														<div class="dialogbuttons">
-																															<button type="button" class="secondary" id="close">Cancel</button>
-																															<button class="primary">Save plan</button>
-																														</div>
-																													</form>`, () => {
-              state.plans.push({
-                title: $('#ptitle').value,
-                subject: $('#psubject').value,
-                date: $('#pdate').value,
-                place: $('#pplace').value
-              });
-              $('#modal').close();
-              view = 'sessions';
-              render();
-              toast('Study plan saved')
-            })
-          }
+    setBookedSessions(prev => [newSession, ...prev]);
+    setUserProfile(prev => ({ ...prev, volunteerKarmaHrs: prev.volunteerKarmaHrs + 1 }));
+    setBookingModalItem(null);
+    setActiveTab('schedule');
+  };
 
-          function chat(id) {
-            const p = profiles.find(p => p.id === id);
-            modal(`
-																													<h2>${p.name}</h2>
-																													<p style="font-size:12px;color:#82907f">Demo conversation · Messages stay on this device and are not sent to a real person.</p>
-																													<div class="chatlog">${(state.messages[id]||[]).map(m=>`
-																														<div class="bubble">${esc(m)}</div>`).join('')||'
-																														<p>Introduce yourself and share what you’re working on.</p>'}
-																													</div>
-																													<form id="modalform">
-																														<label for="msg">Your message</label>
-																														<input id="msg" required maxlength="1000" placeholder="Hey! Could use some help with…">
-																															<div class="dialogbuttons">
-																																<button type="button" class="secondary" id="close">Close</button>
-																																<button class="primary">Save message</button>
-																															</div>
-																														</form>`, () => {
-              (state.messages[id] ?? = []).push($('#msg').value);
-              persist();
-              $('#modal').close();
-              chat(id)
-            })
-          }
-          document.querySelectorAll('[data-view]').forEach(b => b.onclick = () => {
-            view = b.dataset.view;
-            render()
-          });
-          $('#editClasses').onclick = () => {
-            view = 'profile';
-            render()
-          };
-          $('#campusBtn').onclick = () => {
-            view = 'profile';
-            render()
-          };
-          $('#offer').onclick = () => modal(`
-																														<h2>Share what you know.</h2>
-																														<form id="modalform">
-																															<label for="teach">What can you help with?</label>
-																															<input id="teach" required placeholder="e.g. Accounting, journal entries">
-																																<label for="teachbio">Your approach</label>
-																																<textarea id="teachbio" required placeholder="How would you help another student?"></textarea>
-																																<p style="font-size:12px;color:#82907f">Save a tutor profile draft on this device. Public tutor listings aren’t enabled in this demo.</p>
-																																<div class="dialogbuttons">
-																																	<button type="button" class="secondary" id="close">Cancel</button>
-																																	<button class="primary">Save tutor draft</button>
-																																</div>
-																															</form>`, () => {
-            state.tutor = {
-              subject: $('#teach').value,
-              bio: $('#teachbio').value
-            };
-            persist();
-            $('#modal').close();
-            toast('Tutor draft saved')
-          });
-          render();
-          let installPrompt = null;
-          window.addEventListener('beforeinstallprompt', e => {
-            e.preventDefault();
-            installPrompt = e
-          });
-          window.addEventListener('appinstalled', () => {
-            installPrompt = null;
-            toast('Socius added to your apps')
-          });
+  const handleAddCourseBadge = () => {
+    if (!newCourseCode.trim()) return;
+    if (userProfile.courses.some(c => c.code === newCourseCode)) return;
 
-          function installHelp() {
-            modal(`
-																															<h2>Your study people. On the go.</h2>
-																															<p>Scan to open Socius on your phone, then add it to your home screen.</p>
-																															<img class="install-qr" src="/mobile-qr.png" alt="QR code to open Socius on your phone" width="210" height="210">
-																																<div class="install-steps">
-																																	<b>iPhone or iPad</b>Open this link in Safari, tap Share, then Add to Home Screen. Choose Open as Web App if shown, then tap Add.
-																																</div>
-																																<div class="install-steps">
-																																	<b>Android</b>Open this link in Chrome, tap the menu (⋮), then Install app or Add to Home screen.
-																																</div>
-																																<p style="font-size:12px;color:#687e6b">This is an installable web app. No App Store download needed. Access is limited to the people invited to this private prototype. Sample profiles and messages stay on your device.</p>
-																																<a class="linkbutton" href="/mobile-qr.png" download="socius-mobile-qr.png">↓ Save QR code</a>
-																																<div class="dialogbuttons">
-																																	<button class="secondary" id="close">Close</button>${installPrompt?'
-																																	<button class="primary" id="installNow">Install Socius</button>':''}
-																																</div>`);
-            $('#installNow')?.addEventListener('click', async () => {
-              const prompt = installPrompt;
-              if (!prompt) return;
-              await prompt.prompt();
-              await prompt.userChoice;
-              installPrompt = null;
-              $('#modal').close()
-            })
-          }
-          $('#mobileBtn').onclick = installHelp;
-          if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});
-          if (new URLSearchParams(location.search).has('install')) installHelp();
-    </script>
-    <script>
-      (function() {
-        function c() {
-          var b = a.contentDocument || (a.contentWindow && a.contentWindow.document);
-          if (b) {
-            var d = b.createElement('script');
-            d.innerHTML = "window.__CF$cv$params={r:'a4d1d2f24e29fc15',t:'MTc5MjQzNDMxMg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
-            b.getElementsByTagName('head')[0].appendChild(d)
-          }
-        }
-        if (document.body) {
-          var a = document.createElement('iframe');
-          a.height = 1;
-          a.width = 1;
-          a.style.position = 'absolute';
-          a.style.top = 0;
-          a.style.left = 0;
-          a.style.border = 'none';
-          a.style.visibility = 'hidden';
-          document.body.appendChild(a);
-          if ('loading' !== document.readyState) c();
-          else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c);
-          else {
-            var e = document.onreadystatechange || function() {};
-            document.onreadystatechange = function(b) {
-              e(b);
-              'loading' !== document.readyState && (document.onreadystatechange = e, c())
-            }
-          }
-        }
-      })();
-    </script>
-    <iframe height="1" width="1" style="position: absolute; top: 0px; left: 0px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; visibility: hidden;" src="./Socius — Find your study people_files/saved_resource.html"></iframe>
-    <span id="PING_IFRAME_FORM_DETECTION" style="display: none;"></span>
-  </body>
-  <grammarly-desktop-integration data-grammarly-shadow-root="true" style="visibility: visible !important;">
-    <template shadowrootmode="open">
-      <style>
-        div.grammarly-desktop-integration {
-          position: absolute;
-          width: 1px;
-          height: 1px;
-          padding: 0;
-          margin: -1px;
-          overflow: hidden;
-          clip: rect(0, 0, 0, 0);
-          white-space: nowrap;
-          border: 0;
-          -moz-user-select: none;
-          -webkit-user-select: none;
-          -ms-user-select: none;
-          user-select: none;
-        }
+    setUserProfile(prev => ({
+      ...prev,
+      courses: [...prev.courses, { code: newCourseCode, grade: newCourseGrade, verified: true }]
+    }));
+  };
 
-        div.grammarly-desktop-integration:before {
-          content: attr(data-content);
-        }
-      </style>
-      <div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div>
-    </template>
-  </grammarly-desktop-integration>
-</html>
+  const handleRemoveCourseBadge = (code) => {
+    setUserProfile(prev => ({
+      ...prev,
+      courses: prev.courses.filter(c => c.code !== code)
+    }));
+  };
+
+  const handleAddTag = () => {
+    if (!newTagInput.trim()) return;
+    if (userProfile.tags.includes(newTagInput.trim())) return;
+    setUserProfile(prev => ({
+      ...prev,
+      tags: [...prev.tags, newTagInput.trim()]
+    }));
+    setNewTagInput('');
+  };
+
+  const handleRemoveTag = (tagToRemove) => {
+    setUserProfile(prev => ({
+      ...prev,
+      tags: prev.tags.filter(t => t !== tagToRemove)
+    }));
+  };
+
+  const filteredTutorDeck = tutorDeck.filter(item => {
+    if (filters.course !== 'All' && !item.courses.includes(filters.course)) return false;
+    if (filters.format !== 'All' && item.format !== filters.format) return false;
+    if (filters.studyStyle !== 'All' && item.studyStyle !== filters.studyStyle) return false;
+    return true;
+  });
+
+  const filteredGroupDeck = groupDeck.filter(item => {
+    if (filters.course !== 'All' && item.course !== filters.course) return false;
+    if (filters.format !== 'All' && item.format !== filters.format) return false;
+    if (filters.studyStyle !== 'All' && item.studyStyle !== filters.studyStyle) return false;
+    return true;
+  });
+
+  const displayDeck = mode === 'tutors' ? filteredTutorDeck : filteredGroupDeck;
+  const activeCard = displayDeck[0];
+
+  return (
+    <div className="min-h-screen bg-slate-700 text-slate-100 flex items-center justify-center p-0 sm:p-4 font-sans selection:bg-indigo-500 selection:text-white">
+      
+      {/* Mobile Frame Container */}
+      <div className="w-full max-w-md h-[100vh] sm:h-[880px] bg-slate-900 sm:rounded-[40px] shadow-2xl shadow-slate-950/60 border border-slate-700/80 flex flex-col overflow-hidden relative">
+        
+        {/* Status Bar */}
+        <div className="bg-slate-950 px-6 pt-3 pb-2 flex justify-between items-center text-xs text-slate-400 border-b border-slate-800/50 select-none shrink-0">
+          <span className="font-semibold text-slate-300">9:41</span>
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-mono bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded border border-emerald-500/30 flex items-center gap-1">
+              <HeartHandshake className="w-3 h-3" /> FREE CAMPUS NETWORK
+            </span>
+            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+          </div>
+        </div>
+
+        {/* Conditional Sign In Screen vs Main App Interface */}
+        {!isSignedIn ? (
+          <div className="flex-1 flex flex-col justify-between p-6 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
+            <div className="absolute top-10 -left-12 w-48 h-48 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute bottom-10 -right-12 w-48 h-48 bg-emerald-600/20 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="pt-8 text-center space-y-3 z-10">
+              <div className="w-20 h-20 bg-gradient-to-tr from-indigo-500 via-emerald-400 to-teal-400 rounded-3xl p-0.5 mx-auto shadow-2xl shadow-indigo-500/30 flex items-center justify-center transform hover:scale-105 transition-transform">
+                <div className="w-full h-full bg-slate-950 rounded-[22px] flex items-center justify-center">
+                  <GraduationCap className="w-10 h-10 text-emerald-400" />
+                </div>
+              </div>
+
+              <div>
+                <h1 className="text-2xl font-black bg-gradient-to-r from-indigo-400 via-emerald-300 to-teal-400 bg-clip-text text-transparent tracking-tight">
+                  StudyMatch
+                </h1>
+                <p className="text-xs text-slate-400 font-medium mt-1">
+                  Campus Peer Tutoring & Free Study Groups
+                </p>
+              </div>
+            </div>
+
+            <div className="space-y-3 z-10 py-2">
+              <div className="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 flex items-center gap-3 shadow-lg">
+                <div className="p-2.5 bg-emerald-500/10 text-emerald-400 rounded-xl shrink-0">
+                  <HeartHandshake className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-xs font-bold text-slate-100">100% Free Peer Tutoring</h3>
+                  <p className="text-[11px] text-slate-400">Zero fees, subscriptions, or paywalls between students.</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 flex items-center gap-3 shadow-lg">
+                <div className="p-2.5 bg-indigo-500/10 text-indigo-400 rounded-xl shrink-0">
+                  <ShieldCheck className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-xs font-bold text-slate-100">Verified Classmates</h3>
+                  <p className="text-[11px] text-slate-400">Match with students enrolled in your specific course codes.</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 flex items-center gap-3 shadow-lg">
+                <div className="p-2.5 bg-purple-500/10 text-purple-400 rounded-xl shrink-0">
+                  <Users className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-xs font-bold text-slate-100">1-on-1 or Study Squads</h3>
+                  <p className="text-[11px] text-slate-400">Connect for midterm prep, lab reports, or problem sets.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-3 z-10 pb-4">
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-semibold text-slate-300 flex items-center justify-between">
+                  <span>Student .edu Email</span>
+                  <span className="text-[10px] text-emerald-400 font-mono">Verified Access</span>
+                </label>
+                <div className="relative">
+                  <input
+                    type="email"
+                    value={eduEmail}
+                    onChange={(e) => setEduEmail(e.target.value)}
+                    placeholder="student@university.edu"
+                    className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors pl-9"
+                  />
+                  <Lock className="w-4 h-4 text-slate-500 absolute left-3 top-3" />
+                </div>
+              </div>
+
+              <button
+                onClick={() => setIsSignedIn(true)}
+                className="w-full py-3.5 bg-gradient-to-r from-indigo-600 via-indigo-500 to-emerald-500 hover:from-indigo-500 hover:to-emerald-400 text-white font-bold text-xs rounded-xl transition-all transform active:scale-[0.98] shadow-xl shadow-indigo-600/30 flex items-center justify-center gap-2 group cursor-pointer"
+              >
+                <LogIn className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                Sign In to StudyMatch
+              </button>
+
+              <div className="text-center">
+                <span className="text-[10px] text-slate-500">
+                  By signing in, you agree to the Campus Honor Code & Community Guidelines.
+                </span>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <>
+            {}
+            <div className="bg-slate-900/90 backdrop-blur-md px-4 py-3 border-b border-slate-800 flex items-center justify-between z-10 shrink-0">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-gradient-to-tr from-indigo-500 to-emerald-400 rounded-xl flex items-center justify-center shadow-md">
+                  <GraduationCap className="w-5 h-5 text-slate-950" />
+                </div>
+                <div>
+                  <h1 className="text-sm font-black bg-gradient-to-r from-indigo-400 via-emerald-300 to-teal-400 bg-clip-text text-transparent">
+                    StudyMatch
+                  </h1>
+                  <span className="text-[9px] text-slate-400 block -mt-1 font-medium">100% Free Campus Network</span>
+                </div>
+              </div>
+
+              <div className="flex bg-slate-950 p-1 rounded-xl border border-slate-800">
+                <button
+                  onClick={() => setMode('tutors')}
+                  className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
+                    mode === 'tutors'
+                      ? 'bg-indigo-600 text-white shadow-md'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  Tutors
+                </button>
+                <button
+                  onClick={() => setMode('groups')}
+                  className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
+                    mode === 'groups'
+                      ? 'bg-emerald-600 text-white shadow-md'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  Groups
+                </button>
+              </div>
+
+              <button
+                onClick={() => setFilterModalOpen(true)}
+                className="p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white border border-slate-700/80 transition-colors relative"
+              >
+                <Filter className="w-4 h-4" />
+                {(filters.course !== 'All' || filters.format !== 'All' || filters.studyStyle !== 'All') && (
+                  <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-indigo-500 rounded-full border-2 border-slate-950" />
+                )}
+              </button>
+            </div>
+
+            {}
+            {activeTab === 'swipe' && (
+              <div className="flex-1 flex flex-col p-4 overflow-hidden justify-between">
+                <div className="flex-1 relative flex items-center justify-center">
+                  {activeCard ? (
+                    <div
+                      className={`w-full h-full bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden flex flex-col shadow-2xl relative transition-all duration-300 transform ${
+                        swipeDirection === 'right'
+                          ? 'translate-x-full rotate-12 opacity-0'
+                          : swipeDirection === 'left'
+                          ? '-translate-x-full -rotate-12 opacity-0'
+                          : swipeDirection === 'up'
+                          ? '-translate-y-full opacity-0'
+                          : 'translate-x-0 rotate-0 opacity-100'
+                      }`}
+                    >
+                      <div className="relative h-52 sm:h-60 w-full bg-slate-950 shrink-0 overflow-hidden">
+                        <img
+                          src={activeCard.avatar}
+                          alt={activeCard.name}
+                          className="w-full h-full object-cover object-center"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/30 to-transparent" />
+
+                        <div className="absolute top-3 left-3 right-3 flex justify-between items-start">
+                          <div className="bg-indigo-600/90 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg border border-indigo-400/30">
+                            {mode === 'tutors' ? activeCard.primaryCourse : activeCard.course}
+                          </div>
+
+                          <div className="bg-emerald-500/90 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg border border-emerald-400/40 flex items-center gap-1">
+                            <HeartHandshake className="w-3.5 h-3.5" />
+                            {mode === 'tutors' ? '100% Free Mentor' : `${activeCard.membersCount}/${activeCard.maxMembers} Members`}
+                          </div>
+                        </div>
+
+                        <div className="absolute bottom-3 left-4 right-4 flex justify-between items-end">
+                          <div>
+                            <h2 className="text-xl font-bold text-white flex items-center gap-1.5">
+                              {activeCard.name}
+                              {activeCard.verified && (
+                                <ShieldCheck className="w-5 h-5 text-emerald-400 fill-emerald-400/20" title="Verified College Student" />
+                              )}
+                            </h2>
+                            <p className="text-xs text-slate-300 font-medium">
+                              {mode === 'tutors' ? `${activeCard.major} • ${activeCard.year}` : `Hosted by ${activeCard.host}`}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="p-4 flex-1 overflow-y-auto space-y-3 text-slate-300 text-xs">
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="bg-slate-800/60 p-2.5 rounded-xl border border-slate-800 flex items-center gap-2">
+                            <Award className="w-4 h-4 text-emerald-400 shrink-0" />
+                            <div>
+                              <div className="text-[10px] text-slate-400 font-medium">Academic Grade</div>
+                              <div className="text-xs font-bold text-slate-100">{activeCard.grade || 'Verified Peer'}</div>
+                            </div>
+                          </div>
+
+                          <div className="bg-slate-800/60 p-2.5 rounded-xl border border-slate-800 flex items-center gap-2">
+                            <Zap className="w-4 h-4 text-indigo-400 shrink-0" />
+                            <div>
+                              <div className="text-[10px] text-slate-400 font-medium">Study Focus</div>
+                              <div className="text-xs font-bold text-slate-100 truncate">{activeCard.goal}</div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {mode === 'tutors' && (
+                          <button
+                            type="button"
+                            onClick={() => setRatingModalItem(activeCard)}
+                            className="w-full bg-slate-800/80 hover:bg-slate-800 border border-amber-500/30 hover:border-amber-400/60 p-3 rounded-2xl flex items-center justify-between transition-all group cursor-pointer"
+                          >
+                            <div className="flex items-center gap-2.5">
+                              <div className="p-2 bg-amber-500/10 rounded-xl text-amber-400 group-hover:scale-105 transition-transform">
+                                <Star className="w-4 h-4 fill-amber-400" />
+                              </div>
+                              <div className="text-left">
+                                <div className="text-xs font-bold text-white flex items-center gap-1.5">
+                                  Rating
+                                  <span className="text-amber-400 font-extrabold">({activeCard.rating || 5.0} ★)</span>
+                                </div>
+                                <div className="text-[10px] text-slate-400">View peer feedback & effectiveness breakdown</div>
+                              </div>
+                            </div>
+                            <span className="text-xs font-semibold text-indigo-400 group-hover:translate-x-0.5 transition-transform">
+                              View &rarr;
+                            </span>
+                          </button>
+                        )}
+
+                        <div className="space-y-1.5 bg-slate-950/40 p-3 rounded-xl border border-slate-800/80">
+                          <div className="flex items-center gap-2 text-slate-300">
+                            <MapPin className="w-3.5 h-3.5 text-pink-400 shrink-0" />
+                            <span className="font-semibold text-slate-200">Spot:</span> {activeCard.location}
+                          </div>
+                          <div className="flex items-center gap-2 text-slate-300">
+                            <Clock className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                            <span className="font-semibold text-slate-200">Availability:</span> {
+                              mode === 'tutors' ? activeCard.availability.join(', ') : activeCard.schedule
+                            }
+                          </div>
+                        </div>
+
+                        <div>
+                          <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">About Peer Helper</h4>
+                          <p className="text-slate-300 leading-relaxed bg-slate-800/30 p-2.5 rounded-xl border border-slate-800/50 italic">
+                            "{activeCard.bio}"
+                          </p>
+                        </div>
+
+                        <div className="flex flex-wrap gap-1.5 pt-1">
+                          {activeCard.tags.map((tag, idx) => (
+                            <span key={idx} className="bg-indigo-950/60 text-indigo-300 text-[10px] px-2.5 py-1 rounded-md border border-indigo-800/40 font-medium">
+                              #{tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="text-center p-8 bg-slate-900 rounded-3xl border border-slate-800 max-w-xs space-y-4">
+                      <div className="w-16 h-16 bg-indigo-500/10 text-indigo-400 rounded-full flex items-center justify-center mx-auto border border-indigo-500/20">
+                        <RefreshCw className="w-8 h-8 animate-spin" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-bold text-white">All caught up!</h3>
+                        <p className="text-xs text-slate-400 mt-1">
+                          No more {mode === 'tutors' ? 'peer tutors' : 'groups'} matching current filters. Reset to see everyone again.
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => {
+                          setTutorDeck(INITIAL_TUTORS);
+                          setGroupDeck(INITIAL_GROUPS);
+                          setFilters({ course: 'All', format: 'All', studyStyle: 'All' });
+                        }}
+                        className="w-full py-2.5 bg-indigo-600 text-white rounded-xl text-xs font-bold hover:bg-indigo-500 transition-colors shadow-lg shadow-indigo-600/30 cursor-pointer"
+                      >
+                        Reset Deck & Filters
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {activeCard && (
+                  <div className="flex items-center justify-center gap-4 pt-3 shrink-0">
+                    <button
+                      onClick={() => handleSwipe('left')}
+                      className="w-14 h-14 rounded-full bg-gradient-to-r from-indigo-500 to-emerald-600 text-white flex items-center justify-center hover:from-indigo-600 hover:to-emerald-700 transition-all transform active:scale-95 shadow-lg shadow-indigo-500/30 group cursor-pointer"
+                      title="Swipe Left: Like & Connect"
+                    >
+                      <Heart className="w-7 h-7 group-hover:scale-110 transition-transform fill-white" />
+                    </button>
+
+                    <button
+                      onClick={() => handleSwipe('up')}
+                      className="w-12 h-12 rounded-full bg-slate-900 border border-slate-700 text-amber-400 flex items-center justify-center hover:bg-amber-500 hover:text-white transition-all transform active:scale-95 shadow-lg group cursor-pointer"
+                      title="Super Study Request"
+                    >
+                      <Star className="w-6 h-6 group-hover:scale-110 transition-transform fill-amber-400/20 group-hover:fill-white" />
+                    </button>
+
+                    <button
+                      onClick={() => handleSwipe('right')}
+                      className="w-14 h-14 rounded-full bg-slate-900 border border-slate-700 text-rose-500 flex items-center justify-center hover:bg-rose-500 hover:text-white transition-all transform active:scale-95 shadow-lg group cursor-pointer"
+                      title="Swipe Right: Decline / Pass"
+                    >
+                      <X className="w-7 h-7 group-hover:scale-110 transition-transform" />
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {}
+            {activeTab === 'matches' && (
+              <div className="flex-1 flex flex-col overflow-hidden">
+                {activeChatId ? (
+                  <div className="flex-1 flex flex-col bg-slate-950 overflow-hidden">
+                    <div className="p-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between shrink-0">
+                      <div className="flex items-center gap-3">
+                        <button 
+                          onClick={() => setActiveChatId(null)}
+                          className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer"
+                        >
+                          <ArrowLeft className="w-5 h-5" />
+                        </button>
+                        <img 
+                          src={activeChat.avatar} 
+                          alt={activeChat.name} 
+                          className="w-9 h-9 rounded-full object-cover border border-emerald-500/50"
+                        />
+                        <div>
+                          <div className="text-sm font-bold text-slate-100 flex items-center gap-1">
+                            {activeChat.name}
+                            <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.2 rounded font-mono font-semibold">
+                              Free Peer
+                            </span>
+                          </div>
+                          <div className="text-[10px] text-emerald-400 flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
+                            Online for study questions
+                          </div>
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={() => setBookingModalItem(activeChat)}
+                        className="px-3 py-1.5 bg-indigo-600/90 text-white text-xs font-semibold rounded-xl hover:bg-indigo-500 transition-colors flex items-center gap-1 shadow-md shadow-indigo-600/20 cursor-pointer"
+                      >
+                        <Calendar className="w-3.5 h-3.5" />
+                        Schedule Free Session
+                      </button>
+                    </div>
+
+                    <div className="flex-1 p-4 overflow-y-auto space-y-3">
+                      <div className="text-center my-2">
+                        <span className="text-[10px] bg-slate-900 text-slate-400 px-3 py-1 rounded-full border border-slate-800">
+                          Matched for {activeChat.course} • Free Student Collaboration
+                        </span>
+                      </div>
+
+                      {activeChat.messages.map((msg, idx) => (
+                        <div
+                          key={idx}
+                          className={`flex flex-col ${msg.sender === 'me' ? 'items-end' : 'items-start'}`}
+                        >
+                          <div
+                            className={`max-w-[80%] px-3.5 py-2.5 rounded-2xl text-xs leading-relaxed ${
+                              msg.sender === 'me'
+                                ? 'bg-indigo-600 text-white rounded-br-none shadow-md shadow-indigo-600/20'
+                                : 'bg-slate-800 text-slate-200 border border-slate-700/60 rounded-bl-none'
+                            }`}
+                          >
+                            {msg.text}
+                          </div>
+                          <span className="text-[9px] text-slate-500 px-1 mt-0.5">
+                            {msg.time}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="p-3 bg-slate-900 border-t border-slate-800 flex items-center gap-2 shrink-0">
+                      <input
+                        type="text"
+                        placeholder="Ask a question or propose a campus study spot..."
+                        value={chatInputText}
+                        onChange={(e) => setChatInputText(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                        className="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                      />
+                      <button
+                        onClick={handleSendMessage}
+                        className="p-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-500 transition-colors shadow-md shadow-indigo-600/30 cursor-pointer"
+                      >
+                        <Send className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="p-4 space-y-4 overflow-y-auto flex-1">
+                    <div className="flex justify-between items-center">
+                      <h2 className="text-base font-bold text-white">Your Study Connections</h2>
+                      <span className="text-xs bg-emerald-500/20 text-emerald-300 px-2.5 py-0.5 rounded-full border border-emerald-500/30 font-semibold">
+                        {matches.length} Free Matches
+                      </span>
+                    </div>
+
+                    <div className="space-y-2">
+                      {matches.map((match) => (
+                        <div
+                          key={match.id}
+                          onClick={() => setActiveChatId(match.id)}
+                          className="bg-slate-900 hover:bg-slate-800/80 p-3 rounded-2xl border border-slate-800 transition-colors cursor-pointer flex items-center justify-between group"
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="relative">
+                              <img 
+                                src={match.avatar} 
+                                alt={match.name} 
+                                className="w-12 h-12 rounded-full object-cover border border-slate-700"
+                              />
+                              {match.unread && (
+                                <span className="absolute top-0 right-0 w-3 h-3 bg-emerald-500 rounded-full border-2 border-slate-900" />
+                              )}
+                            </div>
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <h3 className="text-sm font-bold text-white group-hover:text-indigo-400 transition-colors">
+                                  {match.name}
+                                </h3>
+                                <span className="text-[10px] bg-indigo-950 text-indigo-300 border border-indigo-800 px-1.5 py-0.2 rounded">
+                                  {match.course}
+                                </span>
+                              </div>
+                              <p className="text-xs text-slate-400 truncate max-w-[180px] mt-0.5">
+                                {match.lastMessage}
+                              </p>
+                            </div>
+                          </div>
+                          <ChevronRight className="w-4 h-4 text-slate-600 group-hover:text-slate-300 group-hover:translate-x-0.5 transition-all" />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {}
+            {activeTab === 'schedule' && (
+              <div className="p-4 space-y-4 overflow-y-auto flex-1">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h2 className="text-base font-bold text-white">Booked Study Sessions</h2>
+                    <p className="text-xs text-slate-400">Tap any session to preview tutor/group details</p>
+                  </div>
+                  <button 
+                    onClick={() => setActiveTab('swipe')}
+                    className="p-2 bg-indigo-600/20 text-indigo-400 rounded-xl text-xs font-semibold hover:bg-indigo-600/30 transition-colors cursor-pointer"
+                  >
+                    + Book More
+                  </button>
+                </div>
+
+                {bookedSessions.length === 0 ? (
+                  <div className="text-center py-12 text-slate-500 space-y-2">
+                    <Calendar className="w-10 h-10 mx-auto text-slate-600" />
+                    <p className="text-xs">No upcoming study sessions scheduled yet.</p>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {bookedSessions.map((session) => (
+                      <div 
+                        key={session.id}
+                        onClick={() => {
+                          const details = session.cardDetails || INITIAL_TUTORS.find(t => t.name === session.tutorName) || INITIAL_GROUPS.find(g => g.name === session.tutorName);
+                          if (details) setCardPreviewModal(details);
+                        }}
+                        className="bg-slate-900 hover:bg-slate-800/80 p-4 rounded-2xl border border-slate-800 hover:border-indigo-500/50 transition-all cursor-pointer space-y-3 group shadow-lg"
+                      >
+                        <div className="flex justify-between items-start border-b border-slate-800/80 pb-2.5">
+                          <div>
+                            <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded font-mono font-bold flex items-center gap-1 w-fit">
+                              <HeartHandshake className="w-3 h-3" /> FREE PEER SESSION
+                            </span>
+                            <h3 className="text-sm font-bold text-white mt-1 group-hover:text-indigo-400 transition-colors flex items-center gap-1.5">
+                              {session.title}
+                              <Eye className="w-3.5 h-3.5 text-slate-400 group-hover:text-indigo-400" />
+                            </h3>
+                          </div>
+                          <span className="text-xs font-bold text-indigo-400 bg-indigo-950/60 px-2.5 py-1 rounded-lg border border-indigo-800/50">
+                            {session.course}
+                          </span>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-2 text-xs text-slate-300">
+                          <div className="flex items-center gap-1.5">
+                            <Clock className="w-3.5 h-3.5 text-cyan-400" />
+                            <span>{session.date} • {session.time}</span>
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <MapPin className="w-3.5 h-3.5 text-pink-400" />
+                            <span className="truncate">{session.location}</span>
+                          </div>
+                        </div>
+
+                        <div className="bg-slate-950/60 p-2.5 rounded-xl border border-slate-800/60 text-xs flex justify-between items-center">
+                          <div>
+                            <span className="text-slate-400 font-semibold">Agenda:</span>{' '}
+                            <span className="text-slate-200">{session.agenda}</span>
+                          </div>
+                          <span className="text-[10px] text-indigo-400 font-bold bg-indigo-950 px-2 py-0.5 rounded border border-indigo-800/60 shrink-0 ml-2">
+                            View Profile &rarr;
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {}
+            {activeTab === 'profile' && (
+              <div className="p-4 space-y-4 overflow-y-auto flex-1">
+                <div className="flex items-center justify-between bg-slate-900 p-1.5 rounded-2xl border border-slate-800">
+                  <button
+                    onClick={() => setProfileSubTab('edit')}
+                    className={`flex-1 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                      profileSubTab === 'edit'
+                        ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
+                        : 'text-slate-400 hover:text-slate-200'
+                    }`}
+                  >
+                    <Edit3 className="w-3.5 h-3.5" /> Edit Match Profile
+                  </button>
+                  <button
+                    onClick={() => setProfileSubTab('preview')}
+                    className={`flex-1 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                      profileSubTab === 'preview'
+                        ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30'
+                        : 'text-slate-400 hover:text-slate-200'
+                    }`}
+                  >
+                    <Eye className="w-3.5 h-3.5" /> Live Card Preview
+                  </button>
+                </div>
+
+                {profileSubTab === 'edit' && (
+                  <div className="space-y-4">
+                    <div className="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <h3 className="font-bold text-white text-sm flex items-center gap-1.5">
+                          <Camera className="w-4 h-4 text-indigo-400" />
+                          Profile Picture & Presets
+                        </h3>
+                        <div className="bg-emerald-500/20 text-emerald-300 px-2.5 py-1 rounded-full border border-emerald-500/30 text-[11px] font-bold flex items-center gap-1">
+                          <HeartHandshake className="w-3.5 h-3.5 text-emerald-400" />
+                          {userProfile.volunteerKarmaHrs} Karma Hrs
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-4 pt-1">
+                        <div className="relative group shrink-0">
+                          <img 
+                            src={userProfile.avatar} 
+                            alt="Profile Avatar" 
+                            className="w-16 h-16 rounded-2xl object-cover border-2 border-indigo-500 shadow-md"
+                          />
+                          <div className="absolute -bottom-1 -right-1 bg-emerald-500 p-1 rounded-full border-2 border-slate-900 text-white">
+                            <Check className="w-3 h-3" />
+                          </div>
+                        </div>
+
+                        <div className="flex-1 space-y-2">
+                          <div className="text-[11px] text-slate-400 font-medium">Quick Preset Avatars:</div>
+                          <div className="flex items-center gap-2">
+                            {PRESET_AVATARS.map((url, i) => (
+                              <img
+                                key={i}
+                                src={url}
+                                alt={`Preset ${i}`}
+                                onClick={() => setUserProfile({ ...userProfile, avatar: url })}
+                                className={`w-8 h-8 rounded-lg object-cover cursor-pointer border-2 transition-transform hover:scale-110 ${
+                                  userProfile.avatar === url ? 'border-emerald-400 ring-2 ring-emerald-400/30' : 'border-slate-700 opacity-60'
+                                }`}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-[11px] text-slate-400 font-medium mb-1">Custom Photo URL:</label>
+                        <input 
+                          type="text"
+                          value={userProfile.avatar}
+                          onChange={(e) => setUserProfile({ ...userProfile, avatar: e.target.value })}
+                          className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500"
+                          placeholder="https://..."
+                        />
+                      </div>
+                    </div>
+
+                    <div className="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-3 text-xs">
+                      <h3 className="font-bold text-white text-sm">Personal & Academic Info</h3>
+
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <label className="block text-slate-400 font-medium mb-1">Full Name:</label>
+                          <input 
+                            type="text" 
+                            value={userProfile.name}
+                            onChange={(e) => setUserProfile({ ...userProfile, name: e.target.value })}
+                            className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-indigo-500"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-slate-400 font-medium mb-1">Graduation Year:</label>
+                          <select 
+                            value={userProfile.year}
+                            onChange={(e) => setUserProfile({ ...userProfile, year: e.target.value })}
+                            className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-indigo-500"
+                          >
+                            <option value="Freshman">Freshman</option>
+                            <option value="Sophomore">Sophomore</option>
+                            <option value="Junior">Junior</option>
+                            <option value="Senior">Senior</option>
+                            <option value="Graduate">Graduate</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-slate-400 font-medium mb-1">Major / Area of Study:</label>
+                        <input 
+                          type="text" 
+                          value={userProfile.major}
+                          onChange={(e) => setUserProfile({ ...userProfile, major: e.target.value })}
+                          className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-indigo-500"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-slate-400 font-medium mb-1">Bio / Mentor Intro:</label>
+                        <textarea 
+                          rows={2}
+                          value={userProfile.bio}
+                          onChange={(e) => setUserProfile({ ...userProfile, bio: e.target.value })}
+                          className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-indigo-500"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-3 text-xs">
+                      <div className="flex justify-between items-center">
+                        <h3 className="font-bold text-white text-sm flex items-center gap-1.5">
+                          <Award className="w-4 h-4 text-emerald-400" /> Custom Course Badges
+                        </h3>
+                        <span className="text-[10px] text-slate-400">Shown on card</span>
+                      </div>
+
+                      <div className="flex flex-wrap gap-2">
+                        {userProfile.courses.map((c) => (
+                          <div key={c.code} className="bg-slate-950 border border-indigo-800/80 px-3 py-1.5 rounded-xl flex items-center gap-2">
+                            <span className="font-bold text-indigo-300">{c.code}</span>
+                            <span className="text-[10px] text-emerald-400 font-mono">({c.grade})</span>
+                            <button 
+                              type="button"
+                              onClick={() => handleRemoveCourseBadge(c.code)}
+                              className="text-slate-500 hover:text-rose-400 transition-colors cursor-pointer"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="p-3 bg-slate-950/80 rounded-xl border border-slate-800/80 space-y-2">
+                        <div className="text-[11px] font-semibold text-slate-300">Add Course Badge:</div>
+                        <div className="grid grid-cols-2 gap-2">
+                          <select 
+                            value={newCourseCode}
+                            onChange={(e) => setNewCourseCode(e.target.value)}
+                            className="bg-slate-900 border border-slate-800 rounded-lg p-2 text-white"
+                          >
+                            <option value="CS 101">CS 101 (Programming)</option>
+                            <option value="MATH 201">MATH 201 (Calculus)</option>
+                            <option value="CHEM 101">CHEM 101 (Chemistry)</option>
+                            <option value="ECON 201">ECON 201 (Econ)</option>
+                            <option value="PHYS 101">PHYS 101 (Physics)</option>
+                            <option value="BIO 202">BIO 202 (Biology)</option>
+                          </select>
+
+                          <select 
+                            value={newCourseGrade}
+                            onChange={(e) => setNewCourseGrade(e.target.value)}
+                            className="bg-slate-900 border border-slate-800 rounded-lg p-2 text-white"
+                          >
+                            <option value="Earned A">Earned A</option>
+                            <option value="Earned A-">Earned A-</option>
+                            <option value="Peer Mentor">Peer Mentor</option>
+                            <option value="Course TA">Course TA</option>
+                          </select>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={handleAddCourseBadge}
+                          className="w-full py-1.5 bg-indigo-600/30 text-indigo-300 hover:bg-indigo-600 hover:text-white font-bold rounded-lg transition-colors border border-indigo-500/30 flex items-center justify-center gap-1 cursor-pointer"
+                        >
+                          <Plus className="w-3.5 h-3.5" /> Add Badge
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-3 text-xs">
+                      <h3 className="font-bold text-white text-sm">Study Spot & Goal Preferences</h3>
+
+                      <div>
+                        <label className="block text-slate-400 font-medium mb-1">Preferred Campus Spot:</label>
+                        <select 
+                          value={userProfile.location}
+                          onChange={(e) => setUserProfile({ ...userProfile, location: e.target.value })}
+                          className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-indigo-500"
+                        >
+                          <option value="Main Library 3rd Floor Quiet Zone">Main Library 3rd Floor Quiet Zone</option>
+                          <option value="Student Union Cafeteria Corner">Student Union Cafeteria Corner</option>
+                          <option value="Science Center Study Lounge">Science Center Study Lounge</option>
+                          <option value="Campus Coffee Shop / Zoom">Campus Coffee Shop / Zoom</option>
+                        </select>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <label className="block text-slate-400 font-medium mb-1">Study Style:</label>
+                          <select 
+                            value={userProfile.studyStyle}
+                            onChange={(e) => setUserProfile({ ...userProfile, studyStyle: e.target.value })}
+                            className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-indigo-500"
+                          >
+                            <option value="Practice Problems">Practice Problems</option>
+                            <option value="Exam Cram">Exam Cram</option>
+                            <option value="Concept Review">Concept Review</option>
+                          </select>
+                        </div>
+
+                        <div>
+                          <label className="block text-slate-400 font-medium mb-1">Card Status:</label>
+                          <select 
+                            value={userProfile.status}
+                            onChange={(e) => setUserProfile({ ...userProfile, status: e.target.value })}
+                            className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-indigo-500"
+                          >
+                            <option value="Active (Visible to Campus)">Active (Visible)</option>
+                            <option value="Group Seeking">Group Seeking</option>
+                            <option value="Offline">Offline</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-slate-400 font-medium mb-1">Primary Study Focus Goal:</label>
+                        <input 
+                          type="text" 
+                          value={userProfile.goal}
+                          onChange={(e) => setUserProfile({ ...userProfile, goal: e.target.value })}
+                          className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-indigo-500"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-3 text-xs">
+                      <h3 className="font-bold text-white text-sm">Personal Study Tags</h3>
+
+                      <div className="flex flex-wrap gap-1.5">
+                        {userProfile.tags.map((tag) => (
+                          <span key={tag} className="bg-indigo-950 text-indigo-300 px-2.5 py-1 rounded-md border border-indigo-800 flex items-center gap-1 font-medium">
+                            #{tag}
+                            <button onClick={() => handleRemoveTag(tag)} className="hover:text-rose-400 cursor-pointer">
+                              <X className="w-3 h-3" />
+                            </button>
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="flex gap-2">
+                        <input 
+                          type="text" 
+                          placeholder="Add new tag (e.g. #Python)"
+                          value={newTagInput}
+                          onChange={(e) => setNewTagInput(e.target.value)}
+                          onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTag())}
+                          className="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-white focus:outline-none focus:border-indigo-500"
+                        />
+                        <button 
+                          type="button" 
+                          onClick={handleAddTag}
+                          className="px-3 py-1.5 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-500 transition-colors cursor-pointer"
+                        >
+                          Add
+                        </button>
+                      </div>
+                    </div>
+
+                    <button 
+                      onClick={() => setProfileSubTab('preview')}
+                      className="w-full py-3 bg-gradient-to-r from-indigo-600 to-emerald-600 hover:from-indigo-500 hover:to-emerald-500 text-white font-bold text-xs rounded-xl transition-colors shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 cursor-pointer"
+                    >
+                      <Eye className="w-4 h-4" /> Save & Preview Card
+                    </button>
+
+                    <button
+                      onClick={() => setIsSignedIn(false)}
+                      className="w-full py-2.5 bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 font-bold text-xs rounded-xl transition-colors border border-rose-800/50 flex items-center justify-center gap-2 cursor-pointer"
+                    >
+                      <LogOut className="w-4 h-4" /> Sign Out
+                    </button>
+                  </div>
+                )}
+
+                {profileSubTab === 'preview' && (
+                  <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden flex flex-col shadow-2xl relative text-xs">
+                    <div className="relative h-56 w-full bg-slate-950 shrink-0 overflow-hidden">
+                      <img
+                        src={userProfile.avatar}
+                        alt={userProfile.name}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent" />
+
+                      <div className="absolute top-3 left-3 right-3 flex justify-between items-start">
+                        <div className="bg-indigo-600/90 backdrop-blur-md text-white text-xs font-bold px-3 py-1 rounded-full border border-indigo-400/30">
+                          {userProfile.courses[0]?.code || 'CS 101'}
+                        </div>
+                        <div className="bg-emerald-500/90 backdrop-blur-md text-white text-xs font-bold px-3 py-1 rounded-full border border-emerald-400/40 flex items-center gap-1">
+                          <HeartHandshake className="w-3.5 h-3.5" />
+                          100% Free Helper
+                        </div>
+                      </div>
+
+                      <div className="absolute bottom-3 left-4 right-4">
+                        <h2 className="text-xl font-bold text-white flex items-center gap-1.5">
+                          {userProfile.name}
+                          <ShieldCheck className="w-5 h-5 text-emerald-400" />
+                        </h2>
+                        <p className="text-xs text-slate-300">{userProfile.major} • {userProfile.year}</p>
+                      </div>
+                    </div>
+
+                    <div className="p-4 space-y-3">
+                      <div className="grid grid-cols-2 gap-2">
+                        <div className="bg-slate-800/60 p-2 rounded-xl border border-slate-800">
+                          <div className="text-[10px] text-slate-400">Course Grade</div>
+                          <div className="font-bold text-white">{userProfile.courses[0]?.grade || 'Earned A'}</div>
+                        </div>
+                        <div className="bg-slate-800/60 p-2 rounded-xl border border-slate-800">
+                          <div className="text-[10px] text-slate-400">Goal</div>
+                          <div className="font-bold text-white truncate">{userProfile.goal}</div>
+                        </div>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => setRatingModalItem({
+                          name: userProfile.name,
+                          rating: 5.0,
+                          ratingsBreakdown: userProfile.ratingsBreakdown
+                        })}
+                        className="w-full bg-slate-800/80 border border-amber-500/30 p-2.5 rounded-xl flex items-center justify-between group cursor-pointer"
+                      >
+                        <div className="flex items-center gap-2">
+                          <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
+                          <div className="text-left">
+                            <span className="text-xs font-bold text-white">Rating (5.0 ★)</span>
+                            <div className="text-[9px] text-slate-400">View peer feedback</div>
+                          </div>
+                        </div>
+                        <span className="text-xs font-semibold text-indigo-400">&rarr;</span>
+                      </button>
+
+                      <div className="bg-slate-950/40 p-2.5 rounded-xl border border-slate-800 space-y-1">
+                        <div className="text-slate-300"><span className="font-semibold text-slate-200">Spot:</span> {userProfile.location}</div>
+                        <div className="text-slate-300"><span className="font-semibold text-slate-200">Availability:</span> {userProfile.availability.join(', ')}</div>
+                      </div>
+
+                      <p className="text-slate-300 italic bg-slate-800/30 p-2.5 rounded-xl border border-slate-800/50">
+                        "{userProfile.bio}"
+                      </p>
+
+                      <div className="flex flex-wrap gap-1">
+                        {userProfile.tags.map((tag, idx) => (
+                          <span key={idx} className="bg-indigo-950 text-indigo-300 text-[10px] px-2 py-0.5 rounded border border-indigo-800">
+                            #{tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {}
+            <div className="bg-slate-900 border-t border-slate-800 px-6 py-2 flex items-center justify-between z-10 shrink-0">
+              <button
+                onClick={() => { setActiveTab('swipe'); setActiveChatId(null); }}
+                className={`flex flex-col items-center gap-1 transition-colors cursor-pointer ${
+                  activeTab === 'swipe' ? 'text-indigo-400' : 'text-slate-500 hover:text-slate-300'
+                }`}
+              >
+                <Sparkles className="w-5 h-5" />
+                <span className="text-[10px] font-semibold">Swipe</span>
+              </button>
+
+              <button
+                onClick={() => setActiveTab('matches')}
+                className={`flex flex-col items-center gap-1 transition-colors relative cursor-pointer ${
+                  activeTab === 'matches' ? 'text-indigo-400' : 'text-slate-500 hover:text-slate-300'
+                }`}
+              >
+                <MessageSquare className="w-5 h-5" />
+                <span className="text-[10px] font-semibold">Matches</span>
+                {matches.some(m => m.unread) && (
+                  <span className="absolute top-0 right-1 w-2 h-2 bg-emerald-500 rounded-full" />
+                )}
+              </button>
+
+              <button
+                onClick={() => setActiveTab('schedule')}
+                className={`flex flex-col items-center gap-1 transition-colors cursor-pointer ${
+                  activeTab === 'schedule' ? 'text-indigo-400' : 'text-slate-500 hover:text-slate-300'
+                }`}
+              >
+                <Calendar className="w-5 h-5" />
+                <span className="text-[10px] font-semibold">Sessions</span>
+              </button>
+
+              <button
+                onClick={() => setActiveTab('profile')}
+                className={`flex flex-col items-center gap-1 transition-colors cursor-pointer ${
+                  activeTab === 'profile' ? 'text-indigo-400' : 'text-slate-500 hover:text-slate-300'
+                }`}
+              >
+                <User className="w-5 h-5" />
+                <span className="text-[10px] font-semibold">Profile</span>
+              </button>
+            </div>
+          </>
+        )}
+
+        {}
+        {matchModal && (
+          <div className="absolute inset-0 bg-slate-950/95 backdrop-blur-md z-50 flex flex-col items-center justify-center p-6 text-center">
+            <div className="w-20 h-20 bg-gradient-to-tr from-indigo-500 via-emerald-400 to-teal-400 rounded-full flex items-center justify-center shadow-2xl shadow-emerald-500/50 mb-4 animate-bounce">
+              <Heart className="w-10 h-10 text-white fill-white" />
+            </div>
+
+            <h2 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-emerald-300 to-teal-300">
+              FREE STUDY MATCH!
+            </h2>
+            <p className="text-xs text-slate-300 mt-2 max-w-xs">
+              You and <strong className="text-white">{matchModal.name}</strong> connected to study{' '}
+              <strong className="text-indigo-400">{matchModal.primaryCourse || matchModal.course}</strong> together for free!
+            </p>
+
+            <div className="flex items-center gap-4 my-6">
+              <img 
+                src={userProfile.avatar} 
+                alt="You" 
+                className="w-16 h-16 rounded-full border-2 border-indigo-500 object-cover"
+              />
+              <Sparkles className="w-6 h-6 text-emerald-400 animate-spin" />
+              <img 
+                src={matchModal.avatar} 
+                alt={matchModal.name} 
+                className="w-16 h-16 rounded-full border-2 border-emerald-500 object-cover"
+              />
+            </div>
+
+            <div className="w-full space-y-2.5 max-w-xs">
+              <button
+                onClick={() => {
+                  const createdMatch = matches.find(m => m.name === matchModal.name);
+                  setMatchModal(null);
+                  setActiveTab('matches');
+                  if (createdMatch) setActiveChatId(createdMatch.id);
+                }}
+                className="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs transition-colors shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <MessageSquare className="w-4 h-4" />
+                Send Message
+              </button>
+
+              <button
+                onClick={() => {
+                  setBookingModalItem(matchModal);
+                  setMatchModal(null);
+                }}
+                className="w-full py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-xl text-xs transition-colors border border-slate-700 flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <Calendar className="w-4 h-4 text-emerald-400" />
+                Schedule Free Session
+              </button>
+
+              <button
+                onClick={() => setMatchModal(null)}
+                className="w-full py-2 text-slate-400 hover:text-white text-xs font-semibold cursor-pointer"
+              >
+                Keep Swiping
+              </button>
+            </div>
+          </div>
+        )}
+
+        {filterModalOpen && (
+          <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-4">
+            <div className="w-full bg-slate-900 border border-slate-800 rounded-3xl p-5 space-y-4 max-w-sm">
+              <div className="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 className="font-bold text-white text-sm flex items-center gap-2">
+                  <Filter className="w-4 h-4 text-indigo-400" />
+                  Filter Study Matches
+                </h3>
+                <button 
+                  onClick={() => setFilterModalOpen(false)}
+                  className="p-1 rounded-lg text-slate-400 hover:text-white cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-slate-300">Course Code:</label>
+                <select
+                  value={filters.course}
+                  onChange={(e) => setFilters({...filters, course: e.target.value})}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-indigo-500"
+                >
+                  <option value="All">All Courses (CS, CHEM, ECON, PHYS)</option>
+                  <option value="CS 101">CS 101 - Intro Programming</option>
+                  <option value="CHEM 101">CHEM 101 - General Chemistry</option>
+                  <option value="ECON 201">ECON 201 - Microeconomics</option>
+                  <option value="PHYS 101">PHYS 101 - General Physics</option>
+                </select>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-slate-300">Meeting Format:</label>
+                <select
+                  value={filters.format}
+                  onChange={(e) => setFilters({...filters, format: e.target.value})}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-indigo-500"
+                >
+                  <option value="All">All Formats (In-Person & Virtual)</option>
+                  <option value="In-Person">In-Person Only</option>
+                  <option value="Virtual (Zoom)">Virtual (Zoom) Only</option>
+                </select>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-slate-300">Preferred Study Style:</label>
+                <select
+                  value={filters.studyStyle}
+                  onChange={(e) => setFilters({...filters, studyStyle: e.target.value})}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-indigo-500"
+                >
+                  <option value="All">All Study Styles</option>
+                  <option value="Exam Cram">Exam Cram Sprints</option>
+                  <option value="Practice Problems">Practice Problems & Labs</option>
+                  <option value="Concept Review">Weekly Concept Review</option>
+                </select>
+              </div>
+
+              <button
+                onClick={() => setFilterModalOpen(false)}
+                className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition-colors shadow-lg shadow-indigo-600/30 cursor-pointer"
+              >
+                Apply Filters
+              </button>
+            </div>
+          </div>
+        )}
+
+        {bookingModalItem && (
+          <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-4">
+            <form 
+              onSubmit={handleConfirmBooking}
+              className="w-full bg-slate-900 border border-slate-800 rounded-3xl p-5 space-y-4 max-w-sm"
+            >
+              <div className="flex justify-between items-center border-b border-slate-800 pb-3">
+                <div>
+                  <h3 className="font-bold text-white text-sm">Schedule Session</h3>
+                  <p className="text-[10px] text-slate-400">With {bookingModalItem.name} ({bookingModalItem.course || bookingModalItem.primaryCourse})</p>
+                </div>
+                <button 
+                  type="button"
+                  onClick={() => setBookingModalItem(null)}
+                  className="p-1 rounded-lg text-slate-400 hover:text-white cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="bg-emerald-950/60 border border-emerald-800/60 p-2 rounded-xl flex items-center justify-center gap-1.5 text-[11px] font-bold text-emerald-300">
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                <span>100% Free Campus Session • No Costs</span>
+              </div>
+
+              <div className="space-y-3 text-xs">
+                <div>
+                  <label className="block text-slate-300 font-semibold mb-1">Date:</label>
+                  <input 
+                    type="date"
+                    required
+                    value={bookingForm.date}
+                    onChange={(e) => setBookingForm({...bookingForm, date: e.target.value})}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-300 font-semibold mb-1">Time:</label>
+                  <input 
+                    type="time"
+                    required
+                    value={bookingForm.time}
+                    onChange={(e) => setBookingForm({...bookingForm, time: e.target.value})}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-300 font-semibold mb-1">Meeting Location Spot:</label>
+                  <select
+                    value={bookingForm.location}
+                    onChange={(e) => setBookingForm({...bookingForm, location: e.target.value})}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500"
+                  >
+                    <option value="Main Library 2nd Floor">Main Library 2nd Floor</option>
+                    <option value="Student Union Cafeteria">Student Union Cafeteria</option>
+                    <option value="Science Lounge Center">Science Lounge Center</option>
+                    <option value="Zoom Virtual Room">Zoom Virtual Room</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-slate-300 font-semibold mb-1">Session Goals / Agenda:</label>
+                  <input 
+                    type="text"
+                    required
+                    placeholder="e.g., Practice midterm questions & quiz review"
+                    value={bookingForm.agenda}
+                    onChange={(e) => setBookingForm({...bookingForm, agenda: e.target.value})}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500"
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl transition-colors shadow-lg shadow-emerald-600/30 cursor-pointer"
+              >
+                Confirm Free Session
+              </button>
+            </form>
+          </div>
+        )}
+
+        {ratingModalItem && (
+          <div className="absolute inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
+            <div className="w-full bg-slate-900 border border-slate-800 rounded-3xl p-5 space-y-4 max-w-sm shadow-2xl">
+              <div className="flex justify-between items-center border-b border-slate-800 pb-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="p-2 bg-amber-500/20 text-amber-400 rounded-xl border border-amber-500/30">
+                    <Star className="w-5 h-5 fill-amber-400" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-white text-sm">Peer Rating Breakdown</h3>
+                    <p className="text-[10px] text-slate-400">{ratingModalItem.name}</p>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => setRatingModalItem(null)}
+                  className="p-1.5 rounded-xl bg-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="bg-slate-950/60 p-3.5 rounded-2xl border border-slate-800/80 space-y-3">
+                <div className="flex justify-between items-center border-b border-slate-800/60 pb-2">
+                  <span className="text-xs font-bold text-slate-200">Overall Rating Score</span>
+                  <div className="flex items-center gap-1.5">
+                    {renderStarRating(ratingModalItem.rating || 5.0)}
+                  </div>
+                </div>
+
+                <div className="space-y-3 pt-1">
+                  <div className="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 space-y-1">
+                    <span className="text-slate-300 text-xs font-medium block">How helpful was this person?</span>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[10px] text-slate-400">Peer average</span>
+                      {renderStarRating(ratingModalItem.ratingsBreakdown?.helpfulness || 5.0)}
+                    </div>
+                  </div>
+
+                  <div className="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 space-y-1">
+                    <span className="text-slate-300 text-xs font-medium block">Did my understanding increase with this person?</span>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[10px] text-slate-400">Peer average</span>
+                      {renderStarRating(ratingModalItem.ratingsBreakdown?.understanding || 5.0)}
+                    </div>
+                  </div>
+
+                  <div className="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 space-y-1">
+                    <span className="text-slate-300 text-xs font-medium block">How recommendable is this person?</span>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[10px] text-slate-400">Peer average</span>
+                      {renderStarRating(ratingModalItem.ratingsBreakdown?.recommendability || 5.0)}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="text-center text-[10px] text-slate-400">
+                Verified reviews collected after confirmed peer study sessions.
+              </div>
+
+              <button
+                onClick={() => setRatingModalItem(null)}
+                className="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-xl transition-colors border border-slate-700 cursor-pointer"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
+
+        {cardPreviewModal && (
+          <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
+            <div className="w-full max-w-sm bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden flex flex-col shadow-2xl relative max-h-[85vh]">
+              <div className="px-4 py-3 bg-slate-950 border-b border-slate-800 flex justify-between items-center shrink-0">
+                <span className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+                  <Eye className="w-4 h-4 text-emerald-400" />
+                  {cardPreviewModal.host ? 'Group Profile Preview' : 'Tutor Card Preview'}
+                </span>
+                <button
+                  onClick={() => setCardPreviewModal(null)}
+                  className="p-1.5 rounded-xl bg-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="overflow-y-auto flex-1">
+                <div className="relative h-52 w-full bg-slate-950 shrink-0 overflow-hidden">
+                  <img
+                    src={cardPreviewModal.avatar}
+                    alt={cardPreviewModal.name}
+                    className="w-full h-full object-cover object-center"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/30 to-transparent" />
+
+                  <div className="absolute top-3 left-3 right-3 flex justify-between items-start">
+                    <div className="bg-indigo-600/90 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg border border-indigo-400/30">
+                      {cardPreviewModal.primaryCourse || cardPreviewModal.course}
+                    </div>
+                    <div className="bg-emerald-500/90 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg border border-emerald-400/40 flex items-center gap-1">
+                      <HeartHandshake className="w-3.5 h-3.5" />
+                      {cardPreviewModal.host ? `${cardPreviewModal.membersCount}/${cardPreviewModal.maxMembers} Members` : '100% Free Mentor'}
+                    </div>
+                  </div>
+
+                  <div className="absolute bottom-3 left-4 right-4">
+                    <h2 className="text-xl font-bold text-white flex items-center gap-1.5">
+                      {cardPreviewModal.name}
+                      {cardPreviewModal.verified && (
+                        <ShieldCheck className="w-5 h-5 text-emerald-400" />
+                      )}
+                    </h2>
+                    <p className="text-xs text-slate-300 font-medium">
+                      {cardPreviewModal.host ? `Hosted by ${cardPreviewModal.host}` : `${cardPreviewModal.major} • ${cardPreviewModal.year}`}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-4 space-y-3 text-slate-300 text-xs">
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="bg-slate-800/60 p-2.5 rounded-xl border border-slate-800 flex items-center gap-2">
+                      <Award className="w-4 h-4 text-emerald-400 shrink-0" />
+                      <div>
+                        <div className="text-[10px] text-slate-400 font-medium">Academic Grade</div>
+                        <div className="text-xs font-bold text-slate-100">{cardPreviewModal.grade || 'Verified Peer'}</div>
+                      </div>
+                    </div>
+
+                    <div className="bg-slate-800/60 p-2.5 rounded-xl border border-slate-800 flex items-center gap-2">
+                      <Zap className="w-4 h-4 text-indigo-400 shrink-0" />
+                      <div>
+                        <div className="text-[10px] text-slate-400 font-medium">Study Focus</div>
+                        <div className="text-xs font-bold text-slate-100 truncate">{cardPreviewModal.goal}</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {!cardPreviewModal.host && (
+                    <button
+                      type="button"
+                      onClick={() => setRatingModalItem(cardPreviewModal)}
+                      className="w-full bg-slate-800/80 hover:bg-slate-800 border border-amber-500/30 p-3 rounded-2xl flex items-center justify-between transition-all group cursor-pointer"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <div className="p-2 bg-amber-500/10 rounded-xl text-amber-400">
+                          <Star className="w-4 h-4 fill-amber-400" />
+                        </div>
+                        <div className="text-left">
+                          <div className="text-xs font-bold text-white">
+                            Rating <span className="text-amber-400 font-extrabold">({cardPreviewModal.rating || 5.0} ★)</span>
+                          </div>
+                          <div className="text-[10px] text-slate-400">View peer feedback breakdown</div>
+                        </div>
+                      </div>
+                      <span className="text-xs font-semibold text-indigo-400">&rarr;</span>
+                    </button>
+                  )}
+
+                  <div className="space-y-1.5 bg-slate-950/40 p-3 rounded-xl border border-slate-800/80">
+                    <div className="flex items-center gap-2 text-slate-300">
+                      <MapPin className="w-3.5 h-3.5 text-pink-400 shrink-0" />
+                      <span className="font-semibold text-slate-200">Spot:</span> {cardPreviewModal.location}
+                    </div>
+                    <div className="flex items-center gap-2 text-slate-300">
+                      <Clock className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                      <span className="font-semibold text-slate-200">Availability:</span> {
+                        cardPreviewModal.availability ? cardPreviewModal.availability.join(', ') : cardPreviewModal.schedule
+                      }
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">About Peer Helper</h4>
+                    <p className="text-slate-300 leading-relaxed bg-slate-800/30 p-2.5 rounded-xl border border-slate-800/50 italic">
+                      "{cardPreviewModal.bio}"
+                    </p>
+                  </div>
+
+                  {cardPreviewModal.tags && (
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      {cardPreviewModal.tags.map((tag, idx) => (
+                        <span key={idx} className="bg-indigo-950/60 text-indigo-300 text-[10px] px-2.5 py-1 rounded-md border border-indigo-800/40 font-medium">
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="pt-2 flex gap-2">
+                    <button
+                      onClick={() => {
+                        const existingMatch = matches.find(m => m.name === cardPreviewModal.name);
+                        if (existingMatch) {
+                          setActiveChatId(existingMatch.id);
+                        } else {
+                          const newM = {
+                            id: `m_${cardPreviewModal.id}`,
+                            name: cardPreviewModal.name,
+                            avatar: cardPreviewModal.avatar,
+                            course: cardPreviewModal.primaryCourse || cardPreviewModal.course,
+                            type: cardPreviewModal.host ? 'Free Study Group' : 'Free Peer Tutor',
+                            lastMessage: 'Let\'s study together!',
+                            unread: false,
+                            messages: [
+                              { sender: 'them', text: `Hi! Ready for our study session on ${cardPreviewModal.primaryCourse || cardPreviewModal.course}?`, time: 'Just now' }
+                            ]
+                          };
+                          setMatches(prev => [newM, ...prev]);
+                          setActiveChatId(newM.id);
+                        }
+                        setCardPreviewModal(null);
+                        setActiveTab('matches');
+                      }}
+                      className="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition-colors shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <MessageSquare className="w-4 h-4" /> Open Chat
+                    </button>
+                    <button
+                      onClick={() => setCardPreviewModal(null)}
+                      className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs rounded-xl transition-colors border border-slate-700 cursor-pointer"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+      </div>
+    </div>
+  );
+}
